@@ -5,8 +5,8 @@
   ],
   "batch_id": "testB_grammy_DQ-08",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-08T21:34:03.499497+00:00",
-  "finished_at": "2026-10-08T21:34:03.567727+00:00",
+  "started_at": "2026-10-09T04:35:26.112013+00:00",
+  "finished_at": "2026-10-09T04:35:26.165900+00:00",
   "datasets": {
     "grammy_raw": {
       "checkpoint": "grammy_raw_checkpoint",

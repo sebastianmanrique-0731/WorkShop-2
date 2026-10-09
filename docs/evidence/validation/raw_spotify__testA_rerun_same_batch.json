@@ -5,8 +5,8 @@
   ],
   "batch_id": "testA_rerun_same_batch",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-09T02:18:14.755700+00:00",
-  "finished_at": "2026-10-09T02:18:15.466109+00:00",
+  "started_at": "2026-10-09T04:34:48.315610+00:00",
+  "finished_at": "2026-10-09T04:34:48.901542+00:00",
   "datasets": {
     "spotify_raw": {
       "checkpoint": "spotify_raw_checkpoint",

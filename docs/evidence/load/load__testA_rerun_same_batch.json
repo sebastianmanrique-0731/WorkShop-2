@@ -1,10 +1,10 @@
 {
   "batch_id": "testA_rerun_same_batch",
   "dag_run_id": "testA_rerun_same_batch",
-  "load_id": 2,
+  "load_id": 6,
   "strategy": "single transaction; dimensions upserted by business key (stable surrogate keys); facts and bridges replaced; reconciliation before COMMIT",
-  "started_at": "2026-10-09T02:18:35.312840+00:00",
-  "finished_at": "2026-10-09T02:18:39.471606+00:00",
+  "started_at": "2026-10-09T04:35:07.143089+00:00",
+  "finished_at": "2026-10-09T04:35:11.783445+00:00",
   "prepared_gate": {
     "gate": "prepared",
     "batch_id": "testA_rerun_same_batch",

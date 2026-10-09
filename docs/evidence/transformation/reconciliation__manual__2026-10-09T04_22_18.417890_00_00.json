@@ -1,0 +1,86 @@
+{
+  "spotify": {
+    "raw_rows": 114000,
+    "TR-S01_dropped_no_artist": 1,
+    "TR-S02_exact_duplicates_removed": 450,
+    "TR-S03_columns_varying_within_track": [],
+    "TR-S03_listings_collapsed": 23809,
+    "TR-S03_tracks_with_different_popularity_by_genre": 720,
+    "TR-S04_tracks_with_missing_name_or_album": 0,
+    "TR-S05_tempo_zero_to_null": 157,
+    "TR-S05_duration_zero_to_null": 0,
+    "TR-S06_popularity_zero_kept": 9347,
+    "TR-S08_credits_before_dedup": 123424,
+    "TR-S08_placeholder_credits_removed": 1,
+    "TR-S08_repeated_artist_in_track_removed": 0,
+    "TR-S08_tracks_without_any_valid_artist_dropped": 0,
+    "distinct_tracks": 89740,
+    "credit_rows": 123423,
+    "distinct_artists": 29767,
+    "track_genre_rows": 113549,
+    "identity_listings": "114000 raw rows - 1 no artist - 450 duplicates = 113549 listings -> 23809 collapsed -> 89740 tracks"
+  },
+  "grammy": {
+    "raw_rows": 4810,
+    "TR-G02_category_labels_before": 638,
+    "TR-G02_category_labels_after_trim": 637,
+    "TR-G02_category_keys_after": 629,
+    "TR-G04_artist_recovered_new_artist_rule": 65,
+    "TR-G05_enabled": true,
+    "TR-G05_artist_recovered_workers_rule": 1333,
+    "TR-G06_placeholder_artist_nulled": 111,
+    "rows_with_artist_after_rules": 4257,
+    "rows_without_artist_after_rules": 553
+  },
+  "integration": {
+    "contract": {
+      "key": "norm_key(artist) (accent-strip, casefold, drop brackets, punctuation->space)",
+      "cardinality": "Grammy entry -> Spotify tracks: one-to-many (bridge); artist: many Grammy rows -> one artist",
+      "min_split_part_len": 4
+    },
+    "grammy_rows_by_artist_strategy": {
+      "exact": 1902,
+      "unmatched": 1821,
+      "no_artist": 553,
+      "split": 534
+    },
+    "grammy_distinct_artist_strings_by_strategy": {
+      "exact": 643,
+      "split": 444,
+      "unmatched": 1144
+    },
+    "grammy_rows_by_artist_source": {
+      "source": 2903,
+      "rule_workers_performer": 1289,
+      "none": 553,
+      "rule_new_artist": 65
+    },
+    "matchable_rows": 4257,
+    "track_matched_rows": 544,
+    "match_rate_matched_over_matchable": 0.1278,
+    "match_rate_matched_over_all_rows": 0.1131,
+    "unmatched_matchable_rows": 3713,
+    "pairs": 1519,
+    "pairs_by_match_type": {
+      "album_name": 1015,
+      "track_name": 504
+    },
+    "rows_matching_more_than_one_track": 263,
+    "max_tracks_per_award_entry": 110,
+    "grammy_only_artists": 1142,
+    "spotify_artists_with_grammy_win": 888
+  },
+  "prepared_rows": {
+    "prepared_track_artist": 123423,
+    "prepared_artist": 30909,
+    "prepared_category": 629,
+    "prepared_grammy_award": 4810,
+    "prepared_award_track": 1519,
+    "prepared_year": 62,
+    "prepared_track_genre": 113549
+  },
+  "batch_id": "manual__2026-10-09T04_22_18.417890_00_00",
+  "raw_grammy_rows": 4810,
+  "raw_spotify_rows": 114000,
+  "transformed_at": "2026-10-09T04:22:35.255346+00:00"
+}

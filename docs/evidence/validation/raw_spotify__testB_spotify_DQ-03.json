@@ -5,8 +5,8 @@
   ],
   "batch_id": "testB_spotify_DQ-03",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-08T21:34:31.371663+00:00",
-  "finished_at": "2026-10-08T21:34:32.203015+00:00",
+  "started_at": "2026-10-09T04:36:17.946876+00:00",
+  "finished_at": "2026-10-09T04:36:18.812477+00:00",
   "datasets": {
     "spotify_raw": {
       "checkpoint": "spotify_raw_checkpoint",

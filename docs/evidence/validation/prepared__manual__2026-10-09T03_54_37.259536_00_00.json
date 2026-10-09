@@ -1,0 +1,717 @@
+{
+  "gate": "prepared",
+  "checkpoints": [
+    "prepared_artist_checkpoint",
+    "prepared_track_artist_checkpoint",
+    "prepared_grammy_award_checkpoint"
+  ],
+  "batch_id": "manual__2026-10-09T03_54_37.259536_00_00",
+  "gx_version": "1.24.0",
+  "started_at": "2026-10-09T03:55:00.362332+00:00",
+  "finished_at": "2026-10-09T03:55:01.132909+00:00",
+  "datasets": {
+    "prepared_artist": {
+      "checkpoint": "prepared_artist_checkpoint",
+      "rows": 30909,
+      "gx_success": true,
+      "expectations_evaluated": 9
+    },
+    "prepared_track_artist": {
+      "checkpoint": "prepared_track_artist_checkpoint",
+      "rows": 123423,
+      "gx_success": false,
+      "expectations_evaluated": 14
+    },
+    "prepared_grammy_award": {
+      "checkpoint": "prepared_grammy_award_checkpoint",
+      "rows": 4810,
+      "gx_success": true,
+      "expectations_evaluated": 8
+    }
+  },
+  "rules_evaluated": 7,
+  "rules_passed": 6,
+  "failed_critical": [
+    "DQ-12"
+  ],
+  "failed_warning": [],
+  "failed_informational": [],
+  "gate_passed": false,
+  "policy": "critical -> stop; warning -> record and continue; informational -> record",
+  "rules": [
+    {
+      "rule_id": "DQ-11",
+      "dataset": "prepared_track_artist",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-401",
+          "expectation_type": "expect_table_columns_to_match_set",
+          "kwargs": {
+            "column_set": [
+              "track_id",
+              "artist_norm",
+              "artist_position",
+              "is_primary_artist",
+              "popularity",
+              "is_high_popularity",
+              "danceability",
+              "energy",
+              "valence",
+              "loudness_db",
+              "tempo_bpm",
+              "duration_ms"
+            ],
+            "exact_match": false
+          },
+          "success": true,
+          "observed": {
+            "observed_value": [
+              "album_name",
+              "artist_norm",
+              "artist_position",
+              "danceability",
+              "duration_ms",
+              "energy",
+              "explicit",
+              "is_high_popularity",
+              "is_primary_artist",
+              "loudness_db",
+              "popularity",
+              "tempo_bpm",
+              "track_id",
+              "track_name",
+              "valence"
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-402",
+          "expectation_type": "expect_compound_columns_to_be_unique",
+          "kwargs": {
+            "column_list": [
+              "track_id",
+              "artist_norm"
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-403",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "track_id"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-404",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "artist_norm"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-405",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "artist_position",
+            "min_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-406",
+          "expectation_type": "expect_column_values_to_be_in_set",
+          "kwargs": {
+            "column": "artist_position",
+            "row_condition": {
+              "column": {
+                "name": "is_primary_artist"
+              },
+              "operator": "==",
+              "parameter": true,
+              "type": "comparison"
+            },
+            "value_set": [
+              1
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 89740,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-407",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "artist_position",
+            "row_condition": {
+              "column": {
+                "name": "is_primary_artist"
+              },
+              "operator": "==",
+              "parameter": false,
+              "type": "comparison"
+            },
+            "min_value": 2.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 33683,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-12",
+      "dataset": "prepared_track_artist",
+      "severity": "critical",
+      "passed": false,
+      "expectations": [
+        {
+          "gx_id": "GX-408",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "popularity"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-409",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "popularity",
+            "min_value": 0.0,
+            "max_value": 100.0
+          },
+          "success": false,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 1,
+            "unexpected_percent": 0.0008102217576950812,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              150.0
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-410",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "danceability",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-411",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "energy",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-412",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "valence",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-413",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "tempo_bpm",
+            "min_value": 0.0,
+            "strict_min": true
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.2851980587086686,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-414",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "duration_ms",
+            "min_value": 0.0,
+            "strict_min": true
+          },
+          "success": true,
+          "observed": {
+            "element_count": 123423,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-13",
+      "dataset": "prepared_artist",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-301",
+          "expectation_type": "expect_table_columns_to_match_set",
+          "kwargs": {
+            "column_set": [
+              "artist_norm",
+              "artist_name",
+              "in_spotify",
+              "is_grammy_winner",
+              "grammy_win_count",
+              "first_grammy_year",
+              "spotify_winner",
+              "spotify_non_winner"
+            ],
+            "exact_match": false
+          },
+          "success": true,
+          "observed": {
+            "observed_value": [
+              "artist_name",
+              "artist_norm",
+              "first_grammy_year",
+              "grammy_win_count",
+              "in_spotify",
+              "is_grammy_winner",
+              "spotify_non_winner",
+              "spotify_winner"
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-302",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "artist_norm"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 30909,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-303",
+          "expectation_type": "expect_column_values_to_be_unique",
+          "kwargs": {
+            "column": "artist_norm"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 30909,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-304",
+          "expectation_type": "expect_column_values_to_not_be_in_set",
+          "kwargs": {
+            "column": "artist_norm",
+            "value_set": [
+              "",
+              "(various artists)",
+              "various artists"
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 30909,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-305",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "is_grammy_winner"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 30909,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-306",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "grammy_win_count",
+            "row_condition": {
+              "column": {
+                "name": "is_grammy_winner"
+              },
+              "operator": "==",
+              "parameter": true,
+              "type": "comparison"
+            },
+            "min_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 2030,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-307",
+          "expectation_type": "expect_column_values_to_be_in_set",
+          "kwargs": {
+            "column": "grammy_win_count",
+            "row_condition": {
+              "column": {
+                "name": "is_grammy_winner"
+              },
+              "operator": "==",
+              "parameter": false,
+              "type": "comparison"
+            },
+            "value_set": [
+              0
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 28879,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-14",
+      "dataset": "prepared_grammy_award",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-501",
+          "expectation_type": "expect_table_columns_to_match_set",
+          "kwargs": {
+            "column_set": [
+              "grammy_row_id",
+              "year",
+              "category_key",
+              "artist_norm",
+              "nominee",
+              "win_count",
+              "is_matchable",
+              "is_track_matched",
+              "matched_track_count"
+            ],
+            "exact_match": false
+          },
+          "success": true,
+          "observed": {
+            "observed_value": [
+              "artist_match_strategy",
+              "artist_norm",
+              "artist_source",
+              "category_key",
+              "grammy_row_id",
+              "is_matchable",
+              "is_track_matched",
+              "matched_track_count",
+              "nominee",
+              "win_count",
+              "year"
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-506",
+          "expectation_type": "expect_table_row_count_to_equal",
+          "kwargs": {
+            "value": 4810
+          },
+          "success": true,
+          "observed": {
+            "observed_value": 4810
+          }
+        },
+        {
+          "gx_id": "GX-502",
+          "expectation_type": "expect_column_values_to_be_unique",
+          "kwargs": {
+            "column": "grammy_row_id"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4810,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-503",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "year",
+            "min_value": 1958.0,
+            "max_value": 2026.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4810,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-504",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "category_key"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4810,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-505",
+          "expectation_type": "expect_column_values_to_be_in_set",
+          "kwargs": {
+            "column": "win_count",
+            "value_set": [
+              1
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4810,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-15",
+      "dataset": "prepared_artist",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-308",
+          "expectation_type": "expect_column_sum_to_be_between",
+          "kwargs": {
+            "column": "spotify_winner",
+            "min_value": 30.0
+          },
+          "success": true,
+          "observed": {
+            "observed_value": "888"
+          }
+        },
+        {
+          "gx_id": "GX-309",
+          "expectation_type": "expect_column_sum_to_be_between",
+          "kwargs": {
+            "column": "spotify_non_winner",
+            "min_value": 30.0
+          },
+          "success": true,
+          "observed": {
+            "observed_value": "28879"
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-16",
+      "dataset": "prepared_grammy_award",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-507",
+          "expectation_type": "expect_column_values_to_be_in_set",
+          "kwargs": {
+            "column": "is_track_matched",
+            "mostly": 0.01,
+            "row_condition": {
+              "column": {
+                "name": "is_matchable"
+              },
+              "operator": "==",
+              "parameter": true,
+              "type": "comparison"
+            },
+            "value_set": [
+              true
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4257,
+            "unexpected_count": 3713,
+            "unexpected_percent": 87.22104768616397,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false,
+              false
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-17",
+      "dataset": "prepared_grammy_award",
+      "severity": "warning",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-508",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "matched_track_count",
+            "mostly": 0.99,
+            "min_value": 0.0,
+            "max_value": 15.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 4810,
+            "unexpected_count": 4,
+            "unexpected_percent": 0.08316008316008316,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              110,
+              110,
+              21,
+              18
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

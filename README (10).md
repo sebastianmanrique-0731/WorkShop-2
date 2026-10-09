@@ -1,20 +1,32 @@
-# Workshop 2 · Reliable Batch Data Pipeline (Spotify + Grammy)
+<div align="center">
 
-ETL (G01) · Data Engineering and Artificial Intelligence · Universidad Autónoma de Occidente
+# 🎵 Workshop 2 · Reliable Batch Data Pipeline
+### Spotify × Grammy Awards
+
+**ETL (G01)** · Data Engineering and Artificial Intelligence · Universidad Autónoma de Occidente
+
+</div>
 
 A batch pipeline, orchestrated by Apache Airflow 3.1.8, that extracts Spotify data from a CSV and Grammy data from PostgreSQL, validates both with Great Expectations, transforms and integrates them, validates the result again and loads a star schema in PostgreSQL. Every claim below links to evidence in [`docs/evidence/`](docs/evidence/).
 
-**Status.** Workshop §6.1–§6.11 and §7 are implemented and were executed in Docker: successful run, three controlled failures, safe rerun and a transient-failure retry. The KPI queries run on the DW. **The Power BI dashboard is still pending (§8).**
+> [!NOTE]
+> **Status.** Workshop §6.1–§6.11 and §7 are implemented and were executed in Docker: successful run, three controlled failures, safe rerun and a transient-failure retry. The KPI queries run on the DW. **The Power BI dashboard is still pending (§8).**
 
 ---
 
-## 1. Problem and analytical objective
+<a id="s1"></a>
+
+## 🎯 1. Problem and analytical objective
 
 Relate Grammy recognition to Spotify popularity, genre and sound. Neither source can answer this alone, and they share no identifier, so the pipeline has to integrate them by name. The match rate is therefore treated as a quality metric, not a footnote.
 
 **Scope.** In scope: artist-level and track-level integration, two validation gates, a star schema, KPIs from the DW. Out of scope: causal claims, nominees who did not win (the source holds winners only), live Spotify API enrichment.
 
-## 2. Analytical requirements
+---
+
+<a id="s2"></a>
+
+## 📋 2. Analytical requirements
 
 | ID | Question (decision supported) | Required data (← source) | KPIs | Level of detail |
 |---|---|---|---|---|
@@ -28,7 +40,11 @@ Relate Grammy recognition to Spotify popularity, genre and sound. Neither source
 
 **Traceability IDs** used across code, tests and evidence: `AR` requirement · `KPI` · `P-S/P-G/P-X` profiling evidence · `RISK` quality risk · `DQ` quality rule · `GX` expectation · `TR` transformation rule · `DW-F/D/B` fact, dimension, bridge.
 
-## 3. Data sources
+---
+
+<a id="s3"></a>
+
+## 🗂️ 3. Data sources
 
 | Source | Provided as | Pipeline extracts from | Size |
 |---|---|---|---|
@@ -46,7 +62,11 @@ Relate Grammy recognition to Spotify popularity, genre and sound. Neither source
 
 Proof that the pipeline reads Grammy from the database and not from the CSV: the `extract_grammys` log line `rows=4810 (db count=4810) from grammy_source.grammy_awards` ([log](docs/evidence/airflow/logs/testA_success__extract_grammys__attempt1.log)).
 
-## 4. Pipeline architecture
+---
+
+<a id="s4"></a>
+
+## 🏗️ 4. Pipeline architecture
 
 ```
 SPOTIFY CSV                         GRAMMY DATABASE (PostgreSQL grammy_source)
@@ -100,7 +120,11 @@ Reading guide:
 
 Orchestration is in [`dags/reliable_music_pipeline.py`](dags/reliable_music_pipeline.py) (TaskFlow, `from airflow.sdk import dag, task`). The logic is in `src/`: `extract.py`, `validation.py`, `transform.py`, `load.py`. Tasks pass only a compact dict (paths, row counts, SHA-256, batch id, gate summary), never data frames. Each task re-verifies the checksum of the files it reads.
 
-## 5. Data profiling findings and quality risks
+---
+
+<a id="s5"></a>
+
+## 🔍 5. Data profiling findings and quality risks
 
 Notebook: [`notebooks/data_profiling.ipynb`](notebooks/data_profiling.ipynb) (read-only, reproducible). Every table and figure is in [`docs/evidence/profiling/`](docs/evidence/profiling/) under its evidence ID; the full register is [`RISKS_register.csv`](docs/evidence/profiling/RISKS_register.csv).
 
@@ -123,7 +147,11 @@ Notebook: [`notebooks/data_profiling.ipynb`](notebooks/data_profiling.ipynb) (re
 
 The 9.2% in RISK-07 is the crude exploratory match of the notebook. The final integration contract (§8) reaches 544 of 4,257 matchable rows (**12.8%**).
 
-## 6. Quality rules
+---
+
+<a id="s6"></a>
+
+## 📏 6. Quality rules
 
 **17 rules**: 13 Critical, 3 Warning, 1 Informational. Each one protects a requirement and comes from profiling evidence, a source contract or a post-transformation invariant. The registry is `RULES` in [`src/validation.py`](src/validation.py): the suites, the GX project and the Expectation → Rule map are all generated from it. Constraints the database already enforces (PK, FK, `UNIQUE`, `CHECK`) are not repeated as rules.
 
@@ -168,7 +196,11 @@ The table follows the columns of Workshop §6.5. It is the executable registry `
 | Warning | The rule id is logged as `WARNING` and recorded in the JSON report; the run continues |
 | Informational | Recorded for monitoring; never blocks |
 
-## 7. Great Expectations validation design
+---
+
+<a id="s7"></a>
+
+## ✅ 7. Great Expectations validation design
 
 | Element | Implementation |
 |---|---|
@@ -183,7 +215,11 @@ The table follows the columns of Workshop §6.5. It is the executable registry `
 
 At run time each gate builds an **ephemeral** GX context from the registry, because the two raw gates run in parallel and must not write to the same files. `python -m src.validation export-docs` writes the same objects to `gx/` and regenerates the map.
 
-## 8. Transformation and integration
+---
+
+<a id="s8"></a>
+
+## 🔄 8. Transformation and integration
 
 One phase. It starts only after **both** raw gates pass. No rule exists to make a validation pass; each one cites its own evidence. Logic: [`src/transform.py`](src/transform.py). Per-run reconciliation: [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json).
 
@@ -217,9 +253,17 @@ One phase. It starts only after **both** raw gates pass. No rule exists to make 
 
 **Reconciliation.** 114,000 raw − 1 − 450 = 113,549 listings → 89,740 tracks → 123,423 credits (29,767 artists). Grammy 4,810 raw = 4,810 prepared. Of the 544 matched entries, 401 have the artist in the source, 135 come from TR-G05 and 8 from TR-G04.
 
-## 9. Dimensional model
+---
+
+<a id="s9"></a>
+
+## ⭐ 9. Dimensional model
 
 Star constellation in PostgreSQL, [`sql/dw_schema.sql`](sql/dw_schema.sql). Two business processes with different grains share the conformed `dim_artist`.
+
+<div align="center">
+<img src="images/dw_model.svg" alt="Dimensional model: Spotify + Grammy star constellation" width="900">
+</div>
 
 | ID | Table | Business process | Grain (one row = …) | Measures | Supports |
 |---|---|---|---|---|---|
@@ -250,9 +294,21 @@ erDiagram
 | AR-02 | `bridge_artist_genre` ⨝ `dim_genre` ⨝ `dim_artist`; by decade via `fact_grammy_award` ⨝ `dim_year` |
 | AR-03 | `fact_grammy_award` → `bridge_award_track` → `fact_track_artist` (primary artist) ⨝ `dim_year`; baseline from `fact_track_artist` |
 
-## 10. Airflow DAG design
+---
+
+<a id="s10"></a>
+
+## 🌬️ 10. Airflow DAG design
 
 `schedule=None`, `catchup=False`, `max_active_runs=1`, default `retries=0`, and a param `fault_injection` for Test B. The dependency rules are part of the code, not only of the drawing: `transform_and_integrate` takes the outputs of **both** raw gates as arguments, and `load_dw` takes the output of `validate_prepared`. With the default `all_success` trigger rule, a failed gate leaves every downstream task `upstream_failed`.
+
+**Implemented DAG (Airflow Graph view, run `testA_success`).**
+
+<div align="center">
+<img src="docs/evidence/airflow/graph__dag_structure.png" alt="Airflow Graph view of reliable_music_pipeline: two source branches converge in transform_and_integrate, then validate_prepared and load_dw; all tasks success" width="820">
+</div>
+
+*Claim:* the DAG that Airflow executes has the architecture of §4. *Reading:* the two source branches (`extract_* → validate_*_raw`) are independent and both feed `transform_and_integrate`, so it cannot start until both raw gates succeed. `validate_prepared` is its only successor and `load_dw` has a single upstream, `validate_prepared`. In this run all seven tasks are `success`.
 
 **Logging.** Each task logs the batch id (the sanitized `run_id`), the material row counts, the gate outcome (`PASSED: 5/5`, `WARNING rule DQ-05`, `FAILED on critical rule(s) ['DQ-08']` with the path of the evidence), the reconciliation and the load summary. Staged files and their `*.meta.json` stay in `data/staging/<batch_id>/` so a batch can be investigated.
 
@@ -280,7 +336,11 @@ erDiagram
 
 Any error rolls back everything, so the DW never holds half a batch.
 
-## 11. Failure and retry policy
+---
+
+<a id="s11"></a>
+
+## 🛡️ 11. Failure and retry policy
 
 | Condition | Type | Pipeline response | Retry | Justification |
 |---|---|---|---|---|
@@ -295,20 +355,34 @@ Any error rolls back everything, so the DW never holds half a batch.
 
 **Selective-retry evidence.** In run `retry_transient_db_outage` the data database was stopped before extraction. Attempt 1 of `extract_grammys` failed with `OperationalError` ([log](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log)), the database came back, attempt 2 extracted 4,810 rows ([log](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log)), and the run ended `success` ([grid](docs/evidence/airflow/grid__retry_transient_db_outage.png)). The deterministic tasks in the same run never retried.
 
-## 12. Test A: successful run
+---
+
+<a id="s12"></a>
+
+## 🟢 12. Test A: successful run
 
 Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](docs/evidence/airflow/grid__testA_success.png), [states](docs/evidence/airflow/task_states.txt)).
+
+<div align="center">
+<img src="docs/evidence/airflow/grid__testA_success.png" alt="Airflow Grid view of run testA_success: 7 task instances, all success" width="820">
+</div>
+
+*Claim:* a clean batch crosses both raw gates, the transformation, the prepared gate and the load. *Reading:* the run `testA_success` ends `success` in 34.3 s. Both extractions start in the same second (23:34:03), which shows the two branches run in parallel; the raw gates follow at 23:34:09, `transform_and_integrate` at 23:34:15 (6.8 s), `validate_prepared` at 23:34:22 and `load_dw` at 23:34:28 (9.0 s). Every task shows attempt 1: nothing was retried.
 
 | Stage | Result | Evidence |
 |---|---|---|
 | Extract both sources | 114,000 Spotify rows from CSV; 4,810 Grammy rows from PostgreSQL (`db count=4810`) | [log](docs/evidence/airflow/logs/testA_success__extract_grammys__attempt1.log) |
 | Raw gates | Spotify 5/5, Grammy 5/5 | [`raw_spotify__testA_success.json`](docs/evidence/validation/raw_spotify__testA_success.json), [`raw_grammy__testA_success.json`](docs/evidence/validation/raw_grammy__testA_success.json) |
 | Transform and integrate | reconciliation of §8 | [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json) |
-| Prepared gate | 6/7, no Critical; Warning DQ-17 recorded, run continues. *This evidence was captured with the first DQ-17 (cap of 15 per row). With the current DQ-17 (≥ 99% of rows) the same batch gives 7/7; refresh by re-running Test A.* | [`prepared__testA_success.json`](docs/evidence/validation/prepared__testA_success.json), [log](docs/evidence/airflow/logs/testA_success__validate_prepared__attempt1.log) |
+| Prepared gate | 7/7 rules ok with the current DQ-17 (≥ 99% of rows), no Critical, no Warning. *The attached task log was captured earlier with the first DQ-17 (cap of 15 per row), which gave 6/7 with Warning DQ-17 and the run continued under policy.* | [`prepared__testA_success.json`](docs/evidence/validation/prepared__testA_success.json), [log](docs/evidence/airflow/logs/testA_success__validate_prepared__attempt1.log) |
 | Load | `dim_artist` 30,910 · `dim_track` 89,740 · `dim_genre` 114 · `dim_category` 629 · `dim_year` 62 · `fact_track_artist` 123,423 · `fact_grammy_award` 4,810 · `bridge_artist_genre` 44,364 · `bridge_award_track` 1,519; reconciled | [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
 | Analytics | KPI queries read the DW | [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt) |
 
-## 13. Test B: controlled Critical failure
+---
+
+<a id="s13"></a>
+
+## 🛑 13. Test B: controlled Critical failure
 
 `fault_injection` changes **one** value after a clean step, logs `CONTROLLED FAULT INJECTED` and records the fault in the batch metadata, so it cannot be mistaken for a real source problem.
 
@@ -318,9 +392,51 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 | `testB_spotify_DQ-03` | one Spotify `popularity = 150` | **DQ-03** | `validate_spotify_raw` ✘; Grammy branch ✔; downstream `upstream_failed` | [grid](docs/evidence/airflow/grid__testB_spotify_DQ-03.png) · [failed log](docs/evidence/airflow/logs/testB_spotify_DQ-03__validate_spotify_raw__attempt1.log) · [GX result](docs/evidence/validation/raw_spotify__testB_spotify_DQ-03.json) |
 | `testB_prepared_DQ-12` | one prepared `popularity = 150` after transformation | **DQ-12** | both raw gates and transform ✔ → `validate_prepared` ✘ → **`load_dw` `upstream_failed`** | [grid](docs/evidence/airflow/grid__testB_prepared_DQ-12.png) · [failed log](docs/evidence/airflow/logs/testB_prepared_DQ-12__validate_prepared__attempt1.log) · [GX result](docs/evidence/validation/prepared__testB_prepared_DQ-12.json) |
 
+**Evidence in the Airflow UI.** For each run, the Grid shows where the failure stops the flow and the log of the failed task names the blocking rule.
+
+*Grammy branch, rule DQ-08 (`testB_grammy_DQ-08`).*
+
+<div align="center">
+<img src="docs/evidence/airflow/grid__testB_grammy_DQ-08.png" alt="Grid of run testB_grammy_DQ-08: validate_grammys_raw failed, transform_and_integrate, validate_prepared and load_dw upstream_failed" width="820">
+</div>
+
+<div align="center">
+<img src="docs/evidence/airflow/log__testB_grammy_DQ-08.png" alt="Log of validate_grammys_raw in run testB_grammy_DQ-08: DataQualityError, gate raw_grammy FAILED on critical rule DQ-08" width="820">
+</div>
+
+*Claim:* a Critical raw failure in the Grammy branch blocks everything downstream, and the cause is readable. *Reading:* both extractions and `validate_spotify_raw` are `success`; `validate_grammys_raw` is `failed` after one attempt (4.1 s); `transform_and_integrate`, `validate_prepared` and `load_dw` are `upstream_failed` with attempt 0, so they never started. The log ends in `AirflowFailException: DataQualityError: Gate raw_grammy FAILED on critical rule(s) ['DQ-08']` with the batch id and the path of the GX report. The injection itself is logged earlier, in [`extract_grammys`](docs/evidence/airflow/logs/testB_grammy_DQ-08__extract_grammys__attempt1.log) (`CONTROLLED FAULT INJECTED`).
+
+*Spotify branch, rule DQ-03 (`testB_spotify_DQ-03`).*
+
+<div align="center">
+<img src="docs/evidence/airflow/grid__testB_spotify_DQ-03.png" alt="Grid of run testB_spotify_DQ-03: validate_spotify_raw failed, downstream upstream_failed, Grammy branch success" width="820">
+</div>
+
+<div align="center">
+<img src="docs/evidence/airflow/log__testB_spotify_DQ-03.png" alt="Log of validate_spotify_raw in run testB_spotify_DQ-03: DataQualityError, gate raw_spotify FAILED on critical rule DQ-03" width="820">
+</div>
+
+*Claim:* the branches fail independently. *Reading:* here the Grammy branch is complete (`extract_grammys` and `validate_grammys_raw` are `success`) while `validate_spotify_raw` is `failed` (5.3 s); the same three downstream tasks are `upstream_failed`. The log names `raw_spotify` and rule `DQ-03`.
+
+*Prepared gate, rule DQ-12 (`testB_prepared_DQ-12`).*
+
+<div align="center">
+<img src="docs/evidence/airflow/grid__testB_prepared_DQ-12.png" alt="Grid of run testB_prepared_DQ-12: raw gates and transform success, validate_prepared failed, load_dw upstream_failed" width="820">
+</div>
+
+<div align="center">
+<img src="docs/evidence/airflow/log__testB_prepared_DQ-12.png" alt="Log of validate_prepared in run testB_prepared_DQ-12: DataQualityError, gate prepared FAILED on critical rule DQ-12" width="820">
+</div>
+
+*Claim:* `load_dw` is gated by the Critical outcome of `validate_prepared`. *Reading:* both raw gates and `transform_and_integrate` are `success`, `validate_prepared` is `failed` (5.2 s) and `load_dw` is `upstream_failed` with attempt 0: nothing reached the Data Warehouse. The log names gate `prepared` and rule `DQ-12`.
+
 **Explanation.** DQ-08 is Critical because a year outside 1958–current year has no `dim_year` member and would corrupt the decade axis of AR-02/AR-03. The gate wrote its report first and then raised `DataQualityError`, which became `AirflowFailException`: there was no retry, because the same data gives the same result. The failed log names the rule and the evidence file. Since `transform_and_integrate` needs both gate outputs, it never ran, so nothing was transformed or loaded and the DW kept the previous batch. The third case proves the second gate: a Critical prepared failure stops `load_dw`.
 
-## 14. Repeatability and safe rerun
+---
+
+<a id="s14"></a>
+
+## 🔁 14. Repeatability and safe rerun
 
 **Strategy:** business-key enforcement for dimensions plus transactional replace of facts (§10). Run `testA_rerun_same_batch` loaded the same input again ([`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json)):
 
@@ -331,9 +447,19 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 | avg popularity · total wins · matched rows · winner artists | 33.4398 · 4,810 · 544 · 2,030 | 33.4398 · 4,810 · 544 · 2,030 |
 | Dimension rows inserted / updated / deleted | — | 0 / 0 / 0 (surrogate keys unchanged) |
 
+<div align="center">
+<img src="docs/evidence/airflow/grid__testA_rerun_same_batch.png" alt="Grid of run testA_rerun_same_batch: 7 task instances, all success" width="820">
+</div>
+
+*Claim:* running the same input again completes normally and leaves the target unchanged. *Reading:* `testA_rerun_same_batch` ends `success` in 33.2 s with all seven tasks at attempt 1; the table above shows that row counts, measures and surrogate keys are identical to the first load.
+
 `etl_load_audit` shows both loads with identical counts. **Partial or failed runs:** extract and transform write atomically (temp file + rename) keyed by batch id, so a rerun overwrites the same files. A failed or interrupted load rolls back completely. `tests/test_load.py::test_a_failed_load_rolls_back_and_leaves_the_previous_state` forces a reconciliation failure and checks that the previous state survives.
 
-## 15. Reliability evidence register
+---
+
+<a id="s15"></a>
+
+## 🧾 15. Reliability evidence register
 
 | ID | Run / task | Artifact | What it proves | Policy / rule |
 |---|---|---|---|---|
@@ -342,17 +468,22 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 | E-03 | profiling notebook | [`profiling/`](docs/evidence/profiling/) | 14 risks backed by tables and figures | RISK-01…14 |
 | E-04 | GX design | [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv) | 58 expectations → rule, suite, validation definition, checkpoint | §6.6 |
 | E-05 | `testA_success` | grid, logs, `raw_*`, `prepared__`, `reconciliation__`, `load__` | Test A | DQ-01…17 |
-| E-06 | `testB_grammy_DQ-08` | grid, failed log, GX JSON | raw Critical failure blocks downstream | DQ-08 |
-| E-07 | `testB_spotify_DQ-03` | grid, failed log, GX JSON | same, other branch; branches independent | DQ-03 |
-| E-08 | `testB_prepared_DQ-12` | grid, failed log, GX JSON | `load_dw` is gated by the prepared gate | DQ-12 |
+| E-06 | `testB_grammy_DQ-08` | grid and log screenshots, failed log, GX JSON | raw Critical failure blocks downstream | DQ-08 |
+| E-07 | `testB_spotify_DQ-03` | grid and log screenshots, failed log, GX JSON | same, other branch; branches independent | DQ-03 |
+| E-08 | `testB_prepared_DQ-12` | grid and log screenshots, failed log, GX JSON | `load_dw` is gated by the prepared gate | DQ-12 |
 | E-09 | `testA_rerun_same_batch` | [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json) | Rerun leaves counts, measures and keys unchanged | §7.3 |
 | E-10 | `retry_transient_db_outage` | grid, attempt 1 and 2 logs | Retries apply to transient errors only | §6.11 |
 | E-11 | all runs | [`dag_runs.txt`](docs/evidence/airflow/dag_runs.txt), [`task_states.txt`](docs/evidence/airflow/task_states.txt) | What ran, when, and with what state | §6.11 |
 | E-12 | DW | [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt) | KPIs computed from the DW | §8.1 |
-| E-13 | `pytest` | [`pytest_summary.txt`](docs/evidence/tests/pytest_summary.txt) | 65 passed: every rule fails when violated; extraction, transformation, prepared gate, load, rerun, rollback | all |
+| E-13 | `pytest` | [`pytest_summary.txt`](docs/evidence/tests/pytest_summary.txt) | 67 passed: every rule fails when violated; extraction, transformation, prepared gate, load, rerun, rollback | all |
 | E-14 | DW | [`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv) | Sensitivity of KPI-01 to `popularity = 0`; expected output of `KPI-01b` | §8.1, RISK-09 |
+| E-15 | `testA_success` | [`graph__dag_structure.png`](docs/evidence/airflow/graph__dag_structure.png) | The implemented DAG has two source branches, one convergence, the prepared gate and the load | §5, §6.11 |
 
-## 16. Dashboard and analytical outputs
+---
+
+<a id="s16"></a>
+
+## 📊 16. Dashboard and analytical outputs
 
 Every output below reads only `music_dw` (never a CSV). All queries are in [`sql/queries/kpi_queries.sql`](sql/queries/kpi_queries.sql); their results on the loaded DW are in [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt).
 
@@ -388,7 +519,7 @@ The negative gap is explained mostly by exact zeros, which RISK-09 flagged and T
 | Grammy winner | 888 | 31.63 | **42.57** | 25.7% |
 | No Grammy win | 28,879 | 33.61 | 37.12 | 9.5% |
 
-Gap excluding zeros: **+5.45**. The first row of each pair reproduces `KPI-01` exactly (31.63 / 33.61 / 888 / 28,879), which is how the replication was validated. These figures were computed by replicating the `fact_track_artist` ⨝ `dim_artist` grain from the prepared datasets ([`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv)); **`KPI-01b` run on `music_dw` must return the same values** and its output should then be appended to `kpi_results.txt`. The result stays an association: a zero may be a real zero or a missing measurement, and the data cannot tell which (README §19).
+Gap excluding zeros: **+5.45**. The first row of each pair reproduces `KPI-01` exactly (31.63 / 33.61 / 888 / 28,879), which is how the replication was validated. These figures were computed by replicating the `fact_track_artist` ⨝ `dim_artist` grain from the prepared datasets ([`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv)); **`KPI-01b` run on `music_dw` returns the same values** (second table of [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt)). The result stays an association: a zero may be a real zero or a missing measurement, and the data cannot tell which (README §19).
 
 ### 16.4 Dashboard connection and pages
 
@@ -401,9 +532,14 @@ Power BI Desktop → Get data → PostgreSQL, server `localhost:5433`, database 
 | AR-03 How do winning recordings sound by decade? | `KPI-05` (decade rows for the lines; the `catalogue` row as reference) | V-03 |
 | Every page | `KPI-06` | match-rate card |
 
-**Pending:** the Power BI dashboard (V-01…V-03 and the KPI-06 card) built from the pages above and connected to `localhost:5433/music_dw`.
+> [!WARNING]
+> **Pending:** the Power BI dashboard (V-01…V-03 and the KPI-06 card) built from the pages above and connected to `localhost:5433/music_dw`.
 
-## 17. End-to-end traceability and evidence set
+---
+
+<a id="s17"></a>
+
+## 🧭 17. End-to-end traceability and evidence set
 
 ### 17.1 Traceability matrix (Workshop §8.2)
 
@@ -442,11 +578,13 @@ One row per **chain** that matters, not per requirement: each row follows one ri
 | ✅ | Safe-rerun evidence | §14, [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json), [grid](docs/evidence/airflow/grid__testA_rerun_same_batch.png) |
 | ⏳ | Dashboard connection to the DW and requirement-to-KPI traceability | Traceability: §16.1 and §17.1 (done). **Power BI dashboard connected to `music_dw`: pending** |
 
-The reliability evidence register of §15 lists the same artifacts by run (E-01…E-14).
+The reliability evidence register of §15 lists the same artifacts by run (E-01…E-15).
 
-## 18. Setup and execution
+---
 
-## 18. Setup and execution
+<a id="s18"></a>
+
+## ⚙️ 18. Setup and execution
 
 **Prerequisites:** Docker Desktop (Compose v2) running and Python 3.10+. Commands are for Windows PowerShell; on Linux/macOS/Git Bash they are the same except where noted. Run everything from the repository root.
 
@@ -481,7 +619,7 @@ python -c "import secrets; print(secrets.token_urlsafe(48))"                    
 
 `.env` is git-ignored: never commit real credentials. Without a local Python, the same commands run in Docker: `docker run --rm apache/airflow:3.1.8 python -c "..."`.
 
-### 18.3 Start the Docker stack
+### 18.3 Start the Docker stack (first time)
 
 ```powershell
 # 1. Build the image (Airflow 3.1.8 + project dependencies)
@@ -535,20 +673,20 @@ docker compose exec airflow-apiserver airflow dags trigger reliable_music_pipeli
 
 Follow the run in the UI (http://localhost:8080 → DAGs → `reliable_music_pipeline` → Grid). All 7 tasks must end `success`.
 
-The `--run-id` becomes the batch id and the suffix of every evidence file, and Airflow rejects a run id that already exists. For a **safe rerun with the same input**, trigger again with a new id:
+The `--run-id` becomes the batch id and the suffix of every evidence file, and Airflow rejects a run id that already exists. Without it, Airflow names the run `manual__<timestamp>`. For a **safe rerun with the same input**, trigger again with a new id:
 
 ```powershell
 docker compose exec airflow-apiserver airflow dags trigger reliable_music_pipeline --run-id testA_rerun_same_batch
 ```
 
-**Test B (controlled Critical failure).** Easiest from the UI: *Trigger* → choose `fault_injection` in the dropdown (`grammy_year_out_of_range`, `spotify_popularity_out_of_range` or `prepared_popularity_out_of_range`) and, optionally, a Run ID under *Advanced options*. From Git Bash / WSL / Linux the CLI works as is:
+**Test B (controlled Critical failure).** Easiest from the UI: *Trigger* → choose `fault_injection` in the dropdown (`grammy_year_out_of_range`, `spotify_popularity_out_of_range` or `prepared_popularity_out_of_range`) and write the run id under *Advanced options*. From Git Bash / WSL / Linux the CLI works as is:
 
 ```bash
 docker compose exec airflow-apiserver airflow dags trigger reliable_music_pipeline \
     --run-id testB_grammy_DQ-08 --conf '{"fault_injection": "grammy_year_out_of_range"}'
 ```
 
-(PowerShell mangles the quotes of inline JSON in some versions; use the UI there.)
+(PowerShell mangles the quotes of inline JSON in some versions; use the UI there.) The run ids used for the evidence are `testA_success`, `testA_rerun_same_batch`, `testB_grammy_DQ-08` (`grammy_year_out_of_range`), `testB_spotify_DQ-03` (`spotify_popularity_out_of_range`), `testB_prepared_DQ-12` (`prepared_popularity_out_of_range`) and `retry_transient_db_outage`.
 
 ### 18.7 Inspect the Data Warehouse
 
@@ -559,15 +697,37 @@ docker compose exec postgres-data psql -U etl_user -d music_dw -c "SELECT * FROM
 
 BI tool: PostgreSQL, server `localhost:5433`, database `music_dw`, user and password from `.env`. The KPI queries are in `sql/queries/kpi_queries.sql`.
 
-### 18.8 Stop and reset
+### 18.8 Daily start and stop
 
 ```powershell
-docker compose down        # stop, keep the data
-docker compose down -v     # stop and DELETE both databases (repeat §18.3 step 4 afterwards)
+# Stop (keeps the databases and the run history)
+deactivate                       # leave the venv, if active
+docker compose down
+docker compose ps                # nothing of this project should be left
+
+# Start again (do NOT repeat airflow-init or prepare-source)
+docker compose up -d
+docker compose ps               # wait ~1 minute until everything is Up / healthy
+docker compose exec airflow-apiserver airflow dags list      # reliable_music_pipeline, is_paused = False
+docker compose exec airflow-apiserver airflow dags unpause reliable_music_pipeline   # only if it is paused
 ```
 
+`docker compose down -v` also **deletes both databases**; after it, repeat §18.3 step 4. If `.env` changes, run `docker compose up -d` again so the containers pick it up.
 
-## 19. Assumptions and limitations
+### 18.9 Troubleshooting
+
+| Symptom | Cause and fix |
+|---|---|
+| `Bind for 127.0.0.1:5433 failed: port is already allocated` (or 8080) | Another Compose project (another copy of this folder) is still running. `docker ps` shows which one; stop it with `docker compose down` from its folder. |
+| `DagNotFound: Dag id ... not found in DagModel` | Airflow has not registered the DAG yet (just started, or after `airflow dags delete`). Wait a minute, check `airflow dags list`, then `unpause`. If it never appears: `airflow dags list-import-errors`. |
+| A run id is rejected as duplicate | Run ids are unique. Delete the old run in the DAG's *Runs* tab or add a suffix (`_v2`). |
+| Notebook says `CSV fallback` | The venv variables of §18.4 were not loaded in that terminal. |
+
+---
+
+<a id="s19"></a>
+
+## ⚠️ 19. Assumptions and limitations
 
 - KPIs describe the **matched subset** of a 114k-track Spotify sample (12.8% of matchable Grammy entries), so every KPI must be shown next to KPI-06.
 - Integration is by normalized name. It establishes equal names, not identity, and can both miss and mismatch.
@@ -576,7 +736,9 @@ docker compose down -v     # stop and DELETE both databases (repeat §18.3 step 
 - The DW holds the latest validated batch. Grammy attributes in `dim_artist` are Type 1, and run history lives in `etl_load_audit`.
 - The Airflow UI uses local-development authentication (every user is admin) and is bound to `127.0.0.1`. Not for shared hosts.
 
-## 20. Repository layout
+---
+
+## 📁 Repository layout
 
 ```
 workshop-2/

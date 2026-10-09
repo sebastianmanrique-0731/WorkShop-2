@@ -5,8 +5,8 @@
   ],
   "batch_id": "testA_rerun_same_batch",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-09T02:18:14.509794+00:00",
-  "finished_at": "2026-10-09T02:18:14.566467+00:00",
+  "started_at": "2026-10-09T04:34:47.402881+00:00",
+  "finished_at": "2026-10-09T04:34:47.463511+00:00",
   "datasets": {
     "grammy_raw": {
       "checkpoint": "grammy_raw_checkpoint",

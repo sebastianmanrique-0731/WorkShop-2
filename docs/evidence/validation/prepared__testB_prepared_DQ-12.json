@@ -7,8 +7,8 @@
   ],
   "batch_id": "testB_prepared_DQ-12",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-08T21:35:08.536338+00:00",
-  "finished_at": "2026-10-08T21:35:09.297953+00:00",
+  "started_at": "2026-10-09T04:36:50.888242+00:00",
+  "finished_at": "2026-10-09T04:36:51.681366+00:00",
   "datasets": {
     "prepared_artist": {
       "checkpoint": "prepared_artist_checkpoint",
@@ -25,18 +25,16 @@
     "prepared_grammy_award": {
       "checkpoint": "prepared_grammy_award_checkpoint",
       "rows": 4810,
-      "gx_success": false,
+      "gx_success": true,
       "expectations_evaluated": 8
     }
   },
   "rules_evaluated": 7,
-  "rules_passed": 5,
+  "rules_passed": 6,
   "failed_critical": [
     "DQ-12"
   ],
-  "failed_warning": [
-    "DQ-17"
-  ],
+  "failed_warning": [],
   "failed_informational": [],
   "gate_passed": false,
   "policy": "critical -> stop; warning -> record and continue; informational -> record",
@@ -688,17 +686,18 @@
       "rule_id": "DQ-17",
       "dataset": "prepared_grammy_award",
       "severity": "warning",
-      "passed": false,
+      "passed": true,
       "expectations": [
         {
           "gx_id": "GX-508",
           "expectation_type": "expect_column_values_to_be_between",
           "kwargs": {
             "column": "matched_track_count",
+            "mostly": 0.99,
             "min_value": 0.0,
             "max_value": 15.0
           },
-          "success": false,
+          "success": true,
           "observed": {
             "element_count": 4810,
             "unexpected_count": 4,

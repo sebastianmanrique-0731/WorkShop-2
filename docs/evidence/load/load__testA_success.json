@@ -1,10 +1,10 @@
 {
   "batch_id": "testA_success",
   "dag_run_id": "testA_success",
-  "load_id": 1,
+  "load_id": 5,
   "strategy": "single transaction; dimensions upserted by business key (stable surrogate keys); facts and bridges replaced; reconciliation before COMMIT",
-  "started_at": "2026-10-09T03:32:08.858987+00:00",
-  "finished_at": "2026-10-09T03:32:13.242452+00:00",
+  "started_at": "2026-10-09T04:34:32.463428+00:00",
+  "finished_at": "2026-10-09T04:34:37.139483+00:00",
   "prepared_gate": {
     "gate": "prepared",
     "batch_id": "testA_success",
@@ -29,21 +29,21 @@
   },
   "before": {
     "rows": {
-      "dim_artist": null,
-      "dim_track": null,
-      "dim_genre": null,
-      "dim_category": null,
-      "dim_year": null,
-      "fact_track_artist": null,
-      "fact_grammy_award": null,
-      "bridge_artist_genre": null,
-      "bridge_award_track": null
+      "dim_artist": 30910,
+      "dim_track": 89740,
+      "dim_genre": 114,
+      "dim_category": 629,
+      "dim_year": 62,
+      "fact_track_artist": 123423,
+      "fact_grammy_award": 4810,
+      "bridge_artist_genre": 44364,
+      "bridge_award_track": 1519
     },
     "measures": {
-      "fact_track_artist_avg_popularity": null,
-      "fact_grammy_award_total_wins": null,
-      "fact_grammy_award_matched_rows": null,
-      "dim_artist_grammy_winners": null
+      "fact_track_artist_avg_popularity": 33.4398,
+      "fact_grammy_award_total_wins": 4810.0,
+      "fact_grammy_award_matched_rows": 544.0,
+      "dim_artist_grammy_winners": 2030.0
     }
   },
   "after": {
@@ -68,27 +68,27 @@
   "changes": {
     "dim_artist": {
       "updated": 0,
-      "inserted": 30909,
+      "inserted": 0,
       "deleted_stale": 0
     },
     "dim_track": {
       "updated": 0,
-      "inserted": 89740,
+      "inserted": 0,
       "deleted_stale": 0
     },
     "dim_genre": {
       "updated": 0,
-      "inserted": 114,
+      "inserted": 0,
       "deleted_stale": 0
     },
     "dim_category": {
       "updated": 0,
-      "inserted": 629,
+      "inserted": 0,
       "deleted_stale": 0
     },
     "dim_year": {
       "updated": 0,
-      "inserted": 62,
+      "inserted": 0,
       "deleted_stale": 0
     },
     "fact_track_artist": {

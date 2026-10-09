@@ -5,8 +5,8 @@
   ],
   "batch_id": "testA_success",
   "gx_version": "1.24.0",
-  "started_at": "2026-10-09T03:31:51.698657+00:00",
-  "finished_at": "2026-10-09T03:31:52.243995+00:00",
+  "started_at": "2026-10-09T04:34:13.357606+00:00",
+  "finished_at": "2026-10-09T04:34:14.072333+00:00",
   "datasets": {
     "spotify_raw": {
       "checkpoint": "spotify_raw_checkpoint",
