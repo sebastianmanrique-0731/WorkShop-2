@@ -9,8 +9,6 @@
 
 A batch pipeline, orchestrated by Apache Airflow 3.1.8, that extracts Spotify data from a CSV and Grammy data from PostgreSQL, validates both with Great Expectations, transforms and integrates them, validates the result again and loads a star schema in PostgreSQL. Every claim below links to evidence in [`docs/evidence/`](docs/evidence/).
 
-> [!NOTE]
-> **Status.** Workshop Sec. 6.1–6.11 and Sec. 7 are implemented and were executed in Docker: successful run, three controlled failures, safe rerun and a transient-failure retry. The KPI queries run on the DW. **The Power BI dashboard is still pending (Sec. 8).**
 
 ---
 
