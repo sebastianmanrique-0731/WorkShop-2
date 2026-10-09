@@ -705,14 +705,44 @@ docker compose exec airflow-apiserver airflow dags unpause reliable_music_pipeli
 
 ```
 workshop-2/
-├── dags/reliable_music_pipeline.py     # orchestration only
-├── src/                                # config, prepare_source, extract, validation (rules + GX), transform, load, local_frames
-├── gx/                                 # GX project generated from the rule registry (suites, validation definitions, checkpoints)
-├── tests/                              # test_quality_rules, test_extract, test_transform, test_load
-├── notebooks/data_profiling.ipynb
-├── sql/                                # source_setup.sql, dw_schema.sql, queries/kpi_queries.sql
-├── docs/evidence/                      # only the evidence the workshop asks for (see Sec. 15)
-├── data/raw/                           # preserved original CSVs + checksums
-├── Dockerfile, docker-compose.yaml, requirements*.txt, .env.example, .gitignore
-└── README.md
+├── dags/
+│   └── reliable_music_pipeline.py      # Airflow ETL DAG orchestration
+├── src/                                 # Pipeline business logic
+│   ├── config.py                       # DB connections, paths, and environment settings
+│   ├── prepare_source.py               # Operational source loader (grammy_awards)
+│   ├── extract.py                      # Extraction from Spotify CSV & Grammy PostgreSQL
+│   ├── validation.py                   # DQ rules definition & Great Expectations gates
+│   ├── transform.py                    # Cleaning, normalization, and integration logic
+│   ├── load.py                         # Star constellation loader & idempotency checks
+│   └── local_frames.py                 # File staging & Parquet serialization helpers
+├── gx/                                  # Great Expectations project & validation suites
+├── tests/                              # Unit & integration tests
+│   ├── test_extract.py                 # Extraction verification
+│   ├── test_quality_rules.py           # DQ rule enforcement tests
+│   ├── test_transform.py               # Transformation logic tests
+│   └── test_load.py                    # DW loading & idempotency tests
+├── notebooks/
+│   └── data_profiling.ipynb            # Source EDA and profiling findings
+├── sql/
+│   ├── source_setup.sql                # grammy_source operational DDL
+│   ├── dw_schema.sql                   # music_dw star constellation schema DDL
+│   └── queries/
+│       └── kpi_queries.sql             # Analytical KPI & visualization queries
+├── power_bi_diagrams/                  # Power BI dashboard analytical views
+│   ├── v01_popularity_zero_sensitivity.png  # AR-01: Popularity with zero-sensitivity
+│   ├── v02_top_genres_grammy_wins.png       # AR-02: Top 15 genres by Grammy wins
+│   └── v03_audio_features_by_decade.png     # AR-03: Audio features evolution by decade
+├── images/
+│   ├── dw_model.svg                    # Dimensional model architecture diagram
+│   └── etl_architecture_v2.svg         # End-to-end ETL architecture diagram
+├── docs/evidence/                       # Verification artifacts (profiling, validation, load, logs)
+├── data/raw/                            # Raw Spotify & Grammy CSVs + checksums
+├── docker-compose.yaml                  # Services (Airflow, Postgres Data, Postgres Airflow)
+├── Dockerfile                           # Custom Airflow image with dependencies
+├── requirements.txt                     # Production requirements (pandas, pyarrow, psycopg2, GX)
+├── requirements-dev.txt                 # Development requirements (pytest)
+├── requirements-notebook.txt            # Notebook requirements (matplotlib, seaborn, jupyter)
+├── .env.example                         # Environment credentials template
+├── .gitignore                           # Git ignore rules
+└── README.md                            # Comprehensive project documentation
 ```
