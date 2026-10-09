@@ -1,0 +1,98 @@
+{
+  "executed_at_utc": "2026-10-09T03:31:02+00:00",
+  "csv_file": "the_grammy_awards.csv",
+  "target_table": "grammy_awards",
+  "reconciled": true,
+  "checks": [
+    {
+      "check": "rows",
+      "csv": 4810,
+      "database": 4810,
+      "match": true
+    },
+    {
+      "check": "year_min",
+      "csv": 1958,
+      "database": 1958,
+      "match": true
+    },
+    {
+      "check": "year_max",
+      "csv": 2019,
+      "database": 2019,
+      "match": true
+    },
+    {
+      "check": "distinct_categories",
+      "csv": 638,
+      "database": 638,
+      "match": true
+    },
+    {
+      "check": "winner_true",
+      "csv": 4810,
+      "database": 4810,
+      "match": true
+    },
+    {
+      "check": "empty_values[year]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    },
+    {
+      "check": "empty_values[title]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    },
+    {
+      "check": "empty_values[published_at]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    },
+    {
+      "check": "empty_values[updated_at]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    },
+    {
+      "check": "empty_values[category]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    },
+    {
+      "check": "empty_values[nominee]",
+      "csv": 6,
+      "database": 6,
+      "match": true
+    },
+    {
+      "check": "empty_values[artist]",
+      "csv": 1840,
+      "database": 1840,
+      "match": true
+    },
+    {
+      "check": "empty_values[workers]",
+      "csv": 2190,
+      "database": 2190,
+      "match": true
+    },
+    {
+      "check": "empty_values[img]",
+      "csv": 1367,
+      "database": 1367,
+      "match": true
+    },
+    {
+      "check": "empty_values[winner]",
+      "csv": 0,
+      "database": 0,
+      "match": true
+    }
+  ]
+}

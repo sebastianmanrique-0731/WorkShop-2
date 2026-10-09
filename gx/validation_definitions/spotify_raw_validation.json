@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "0c0b761c-cdf5-44df-9a03-dc7149162088",
+      "name": "spotify_raw"
+    },
+    "batch_definition": {
+      "id": "ce8e1713-e59f-427b-a308-6d2ebd1dc61b",
+      "name": "whole_dataframe"
+    },
+    "datasource": {
+      "id": "466f73a7-a7e9-461b-86b6-38a097d209d5",
+      "name": "pandas_runtime"
+    }
+  },
+  "id": "86253e29-73da-46fb-9d71-db67c1ada6ea",
+  "name": "spotify_raw_validation",
+  "suite": {
+    "id": "10730a0f-d776-4e4e-8be5-2b0083019a09",
+    "name": "spotify_raw_suite"
+  }
+}

@@ -1,0 +1,22 @@
+,dtype,non_null,distinct,required_by
+csv_index,int64,114000,114000,-
+track_id,str,114000,89741,"AR-01, AR-02, AR-03"
+artists,str,113999,31437,"AR-01, AR-02, AR-03"
+album_name,str,113999,46589,AR-03
+track_name,str,113999,73608,AR-03
+popularity,int64,114000,101,AR-01
+duration_ms,int64,114000,50697,AR-03
+explicit,bool,114000,2,AR-03
+danceability,float64,114000,1174,AR-03
+energy,float64,114000,2083,AR-03
+key,int64,114000,12,-
+loudness,float64,114000,19480,AR-03
+mode,int64,114000,2,-
+speechiness,float64,114000,1489,-
+acousticness,float64,114000,5061,-
+instrumentalness,float64,114000,5346,-
+liveness,float64,114000,1722,-
+valence,float64,114000,1790,AR-03
+tempo,float64,114000,45653,AR-03
+time_signature,int64,114000,5,-
+track_genre,str,114000,114,AR-02

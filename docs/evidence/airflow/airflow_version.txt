@@ -1,0 +1,2 @@
+$ docker compose up airflow-init   (service command: airflow version)
+3.1.8

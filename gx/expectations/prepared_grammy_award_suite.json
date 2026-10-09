@@ -1,0 +1,132 @@
+{
+  "expectations": [
+    {
+      "id": "5eebf968-a9d5-467a-b146-ac1c48a3f239",
+      "kwargs": {
+        "column_set": [
+          "grammy_row_id",
+          "year",
+          "category_key",
+          "artist_norm",
+          "nominee",
+          "win_count",
+          "is_matchable",
+          "is_track_matched",
+          "matched_track_count"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "gx_id": "GX-501",
+        "rule_id": "DQ-14",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "8c40cc98-182c-49da-9777-731be889d155",
+      "kwargs": {
+        "column": "grammy_row_id"
+      },
+      "meta": {
+        "gx_id": "GX-502",
+        "rule_id": "DQ-14",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "2af8c9cc-d326-469d-a83f-a073888b31ec",
+      "kwargs": {
+        "column": "year",
+        "max_value": 2026.0,
+        "min_value": 1958.0
+      },
+      "meta": {
+        "gx_id": "GX-503",
+        "rule_id": "DQ-14",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "3c2a762f-0de8-477b-9ea5-4028d8337438",
+      "kwargs": {
+        "column": "category_key"
+      },
+      "meta": {
+        "gx_id": "GX-504",
+        "rule_id": "DQ-14",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "ca758683-d182-449b-9786-5dfe71494f51",
+      "kwargs": {
+        "column": "win_count",
+        "value_set": [
+          1
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-505",
+        "rule_id": "DQ-14",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "af5ffe9b-7313-4902-b261-e48d7727f43f",
+      "kwargs": {
+        "column": "is_track_matched",
+        "mostly": 0.01,
+        "row_condition": {
+          "column": {
+            "name": "is_matchable"
+          },
+          "operator": "==",
+          "parameter": true,
+          "type": "comparison"
+        },
+        "value_set": [
+          true
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-507",
+        "rule_id": "DQ-16",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "f701be88-eeda-43e2-b3b3-5704a2b16c22",
+      "kwargs": {
+        "column": "matched_track_count",
+        "max_value": 15.0,
+        "min_value": 0.0,
+        "mostly": 0.99
+      },
+      "meta": {
+        "gx_id": "GX-508",
+        "rule_id": "DQ-17",
+        "severity": "warning"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "98dae26d-7eff-4d02-bccf-9b768ccd88c9",
+  "meta": {
+    "great_expectations_version": "1.24.0"
+  },
+  "name": "prepared_grammy_award_suite",
+  "notes": null
+}

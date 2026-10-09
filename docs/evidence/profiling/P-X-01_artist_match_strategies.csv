@@ -1,0 +1,4 @@
+strategy,grammy_distinct_artists,matched,match_pct
+"exact string (as delivered, trimmed)",1658,517,31.2
+"normalized name (accents, case, punctuation)",1618,536,33.1
+normalized + split composite Grammy artists,1809,699,38.6

@@ -1,0 +1,467 @@
+{
+  "gate": "raw_spotify",
+  "checkpoints": [
+    "spotify_raw_checkpoint"
+  ],
+  "batch_id": "testA_success_v2",
+  "gx_version": "1.24.0",
+  "started_at": "2026-10-09T03:42:01.799621+00:00",
+  "finished_at": "2026-10-09T03:42:02.487992+00:00",
+  "datasets": {
+    "spotify_raw": {
+      "checkpoint": "spotify_raw_checkpoint",
+      "rows": 114000,
+      "gx_success": true,
+      "expectations_evaluated": 19
+    }
+  },
+  "rules_evaluated": 5,
+  "rules_passed": 5,
+  "failed_critical": [],
+  "failed_warning": [],
+  "failed_informational": [],
+  "gate_passed": true,
+  "policy": "critical -> stop; warning -> record and continue; informational -> record",
+  "rules": [
+    {
+      "rule_id": "DQ-01",
+      "dataset": "spotify_raw",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-101",
+          "expectation_type": "expect_table_columns_to_match_set",
+          "kwargs": {
+            "column_set": [
+              "csv_index",
+              "track_id",
+              "artists",
+              "album_name",
+              "track_name",
+              "popularity",
+              "duration_ms",
+              "explicit",
+              "danceability",
+              "energy",
+              "key",
+              "loudness",
+              "mode",
+              "speechiness",
+              "acousticness",
+              "instrumentalness",
+              "liveness",
+              "valence",
+              "tempo",
+              "time_signature",
+              "track_genre"
+            ],
+            "exact_match": false
+          },
+          "success": true,
+          "observed": {
+            "observed_value": [
+              "acousticness",
+              "album_name",
+              "artists",
+              "csv_index",
+              "danceability",
+              "duration_ms",
+              "energy",
+              "explicit",
+              "instrumentalness",
+              "key",
+              "liveness",
+              "loudness",
+              "mode",
+              "popularity",
+              "speechiness",
+              "tempo",
+              "time_signature",
+              "track_genre",
+              "track_id",
+              "track_name",
+              "valence"
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-102",
+          "expectation_type": "expect_table_row_count_to_be_between",
+          "kwargs": {
+            "min_value": 50000,
+            "max_value": 500000
+          },
+          "success": true,
+          "observed": {
+            "observed_value": 114000
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-02",
+      "dataset": "spotify_raw",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-103",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "track_id"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-104",
+          "expectation_type": "expect_column_values_to_match_regex",
+          "kwargs": {
+            "column": "track_id",
+            "regex": "^[A-Za-z0-9]{22}$"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-03",
+      "dataset": "spotify_raw",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-105",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "popularity",
+            "min_value": 0.0,
+            "max_value": 100.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-106",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "danceability",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-107",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "energy",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-108",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "speechiness",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-109",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "acousticness",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-110",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "instrumentalness",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-111",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "liveness",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-112",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "valence",
+            "min_value": 0.0,
+            "max_value": 1.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-113",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "key",
+            "min_value": 0.0,
+            "max_value": 11.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        },
+        {
+          "gx_id": "GX-114",
+          "expectation_type": "expect_column_values_to_be_in_set",
+          "kwargs": {
+            "column": "mode",
+            "value_set": [
+              0,
+              1
+            ]
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-04",
+      "dataset": "spotify_raw",
+      "severity": "critical",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-115",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "artists",
+            "mostly": 0.99
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 1,
+            "unexpected_percent": 0.0008771929824561403,
+            "partial_unexpected_list": [
+              null
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-116",
+          "expectation_type": "expect_column_values_to_not_be_null",
+          "kwargs": {
+            "column": "track_genre"
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 0,
+            "unexpected_percent": 0.0,
+            "partial_unexpected_list": []
+          }
+        }
+      ]
+    },
+    {
+      "rule_id": "DQ-05",
+      "dataset": "spotify_raw",
+      "severity": "warning",
+      "passed": true,
+      "expectations": [
+        {
+          "gx_id": "GX-117",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "tempo",
+            "mostly": 0.99,
+            "min_value": 0.0,
+            "strict_min": true
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 157,
+            "unexpected_percent": 0.13771929824561402,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-118",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "loudness",
+            "mostly": 0.99,
+            "min_value": -60.0,
+            "max_value": 0.0
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 90,
+            "unexpected_percent": 0.07894736842105263,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              0.698,
+              0.698,
+              0.025,
+              0.082,
+              0.202,
+              0.194,
+              4.532,
+              0.777,
+              1.673,
+              0.665,
+              1.795,
+              0.366,
+              0.42,
+              0.836,
+              0.587,
+              0.025,
+              0.11,
+              0.006,
+              0.065,
+              0.041
+            ]
+          }
+        },
+        {
+          "gx_id": "GX-119",
+          "expectation_type": "expect_column_values_to_be_between",
+          "kwargs": {
+            "column": "duration_ms",
+            "mostly": 0.99,
+            "min_value": 0.0,
+            "max_value": 7200000.0,
+            "strict_min": true
+          },
+          "success": true,
+          "observed": {
+            "element_count": 114000,
+            "unexpected_count": 1,
+            "unexpected_percent": 0.0008771929824561403,
+            "missing_percent": 0.0,
+            "partial_unexpected_list": [
+              0
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

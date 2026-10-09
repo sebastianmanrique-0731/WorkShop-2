@@ -1,0 +1,13 @@
+,value
+year_min,1958
+year_max,2019
+distinct_years,62
+missing_years_in_range,[]
+rows_per_year_min,28
+rows_per_year_max,433
+published_at_unparseable,0
+updated_at_unparseable,0
+updated_before_published,0
+published_at_range,2017-11-28 .. 2020-05-19
+distinct_published_at_values,4
+title_ordinal_vs_year_mismatch_(year-1957 != ordinal),0

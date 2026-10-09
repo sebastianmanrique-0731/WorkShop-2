@@ -1,0 +1,6 @@
+,value
+rows,4810
+exact_duplicate_rows,0
+"duplicate_(year,category,nominee,artist)",0
+"duplicate_(year,category,nominee)",0
+rows_where_candidate_key_has_NULL,1840

@@ -1,0 +1,164 @@
+# Workshop-2 · Reliable batch pipeline
+# Airflow 3.1.8 (LocalExecutor) + one Postgres for data (Grammy source DB and the DW)
+# + one Postgres for Airflow metadata.
+#
+# Start:   docker compose up airflow-init && docker compose up -d
+# UI:      http://localhost:${AIRFLOW_HOST_PORT:-8080}   (local-only; see README for auth note)
+
+x-airflow-common: &airflow-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+  image: workshop2-airflow:3.1.8
+  environment: &airflow-common-env
+    AIRFLOW__CORE__EXECUTOR: LocalExecutor
+    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@postgres-airflow/${AIRFLOW_DB_NAME}
+    AIRFLOW__CORE__FERNET_KEY: ${AIRFLOW_FERNET_KEY}
+    AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET}
+    AIRFLOW__API__SECRET_KEY: ${AIRFLOW_API_SECRET_KEY}
+    AIRFLOW__CORE__EXECUTION_API_SERVER_URL: http://airflow-apiserver:8080/execution/
+    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: "true"
+    AIRFLOW__CORE__LOAD_EXAMPLES: "false"
+    # Local-development auth: every visitor is admin. The UI port is bound to 127.0.0.1 only.
+    AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: "true"
+    AIRFLOW__SCHEDULER__ENABLE_HEALTH_CHECK: "true"
+    # Make `from src.<module> import ...` work inside DAGs
+    PYTHONPATH: /opt/airflow
+    # Connections exposed to DAGs (Airflow reads AIRFLOW_CONN_<ID> as a URI)
+    AIRFLOW_CONN_GRAMMY_SOURCE_DB: postgresql://${DATA_DB_USER}:${DATA_DB_PASSWORD}@${DATA_DB_HOST}:${DATA_DB_PORT}/${SOURCE_DB_NAME}
+    AIRFLOW_CONN_MUSIC_DW: postgresql://${DATA_DB_USER}:${DATA_DB_PASSWORD}@${DATA_DB_HOST}:${DATA_DB_PORT}/${DW_DB_NAME}
+    # Plain settings used by src/ modules
+    DATA_DB_USER: ${DATA_DB_USER}
+    DATA_DB_PASSWORD: ${DATA_DB_PASSWORD}
+    DATA_DB_HOST: ${DATA_DB_HOST}
+    DATA_DB_PORT: ${DATA_DB_PORT}
+    SOURCE_DB_NAME: ${SOURCE_DB_NAME}
+    DW_DB_NAME: ${DW_DB_NAME}
+    SPOTIFY_CSV_PATH: ${SPOTIFY_CSV_PATH}
+    GRAMMY_CSV_PATH: ${GRAMMY_CSV_PATH}
+  volumes:
+    - ./dags:/opt/airflow/dags
+    - ./src:/opt/airflow/src
+    - ./gx:/opt/airflow/gx
+    - ./sql:/opt/airflow/sql
+    - ./data:/opt/airflow/data
+    - ./docs/evidence:/opt/airflow/docs/evidence
+    - ./airflow/logs:/opt/airflow/logs
+    - ./airflow/config:/opt/airflow/config
+    - ./airflow/plugins:/opt/airflow/plugins
+  user: "${AIRFLOW_UID:-50000}:0"
+  depends_on: &airflow-common-depends-on
+    postgres-airflow:
+      condition: service_healthy
+    postgres-data:
+      condition: service_healthy
+
+services:
+  # ---- Airflow metadata DB (internal) --------------------------------------
+  postgres-airflow:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${AIRFLOW_DB_USER}
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      POSTGRES_DB: ${AIRFLOW_DB_NAME}
+    volumes:
+      - airflow-metadata-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${AIRFLOW_DB_USER}", "-d", "${AIRFLOW_DB_NAME}"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  # ---- Data DB: Grammy operational source + analytical Data Warehouse ------
+  # The first database (POSTGRES_DB) is the Grammy source. The prepare-source job creates the DW database.
+  postgres-data:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: ${DATA_DB_USER}
+      POSTGRES_PASSWORD: ${DATA_DB_PASSWORD}
+      POSTGRES_DB: ${SOURCE_DB_NAME}
+    ports:
+      - "127.0.0.1:${DATA_DB_HOST_PORT:-5433}:5432"
+    volumes:
+      - data-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DATA_DB_USER}", "-d", "${SOURCE_DB_NAME}"]
+      interval: 10s
+      retries: 5
+      start_period: 5s
+    restart: unless-stopped
+
+  # ---- One-off init: DB migrate + proves the Airflow version ----------------
+  airflow-init:
+    <<: *airflow-common
+    entrypoint: /bin/bash
+    command:
+      - -c
+      - |
+        mkdir -p /sources/logs /sources/plugins /sources/config
+        chown -R "${AIRFLOW_UID:-50000}:0" /sources/logs /sources/plugins /sources/config
+        exec /entrypoint airflow version
+    environment:
+      <<: *airflow-common-env
+      _AIRFLOW_DB_MIGRATE: "true"
+    user: "0:0"
+    volumes:
+      - ./airflow:/sources
+
+  # ---- Airflow components ---------------------------------------------------
+  airflow-apiserver:
+    <<: *airflow-common
+    command: api-server
+    ports:
+      - "127.0.0.1:${AIRFLOW_HOST_PORT:-8080}:8080"
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/version"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  airflow-scheduler:
+    <<: *airflow-common
+    command: scheduler
+    healthcheck:
+      test: ["CMD", "curl", "--fail", "http://localhost:8974/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  airflow-dag-processor:
+    <<: *airflow-common
+    command: dag-processor
+    depends_on:
+      <<: *airflow-common-depends-on
+      airflow-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # ---- One-off job: load the Grammy CSV into the source DB (source preparation) ----
+  # Not part of the ETL Load stage. Run with:
+  #   docker compose --profile setup run --rm prepare-source
+  prepare-source:
+    <<: *airflow-common
+    profiles: ["setup"]
+    command: ["python", "-m", "src.prepare_source"]
+    depends_on:
+      postgres-data:
+        condition: service_healthy
+
+volumes:
+  airflow-metadata-db:
+  data-db:

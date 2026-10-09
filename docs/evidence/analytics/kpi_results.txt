@@ -1,0 +1,797 @@
+﻿ avg_popularity_winners | avg_popularity_non_winners |  gap  | winner_artists | non_winner_artists 
+------------------------+----------------------------+-------+----------------+--------------------
+                  31.63 |                      33.61 | -1.98 |            888 |              28879
+(1 row)
+
+ artist_group  | artists | avg_popularity | avg_popularity_excl_zero | pct_zero_popularity 
+---------------+---------+----------------+--------------------------+---------------------
+ Grammy winner |     888 |          31.63 |                    42.57 |                25.7
+ No Grammy win |   28879 |          33.61 |                    37.12 |                 9.5
+(2 rows)
+
+ high_popularity_tracks | with_grammy_artist | pct_high_popularity_by_winners 
+------------------------+--------------------+--------------------------------
+                   3121 |               1033 |                          33.10
+(1 row)
+
+    genre_name     | grammy_wins 
+-------------------+-------------
+ soul              |         439
+ jazz              |         364
+ country           |         335
+ opera             |         298
+ blues             |         291
+ rock              |         270
+ classical         |         251
+ dance             |         244
+ disco             |         226
+ funk              |         202
+ bluegrass         |         194
+ singer-songwriter |         193
+ songwriter        |         193
+ hip-hop           |         183
+ folk              |         160
+ latin             |         160
+ show-tunes        |         154
+ british           |         152
+ electro           |         152
+ alternative       |         146
+ piano             |         141
+ pop               |         139
+ edm               |         123
+ alt-rock          |         119
+ house             |         115
+ german            |         110
+ dancehall         |         102
+ r-n-b             |          98
+ guitar            |          96
+ progressive-house |          95
+ hardcore          |          94
+ reggaeton         |          92
+ disney            |          91
+ reggae            |          91
+ comedy            |          89
+ metal             |          88
+ indie             |          87
+ latino            |          77
+ honky-tonk        |          75
+ hard-rock         |          74
+ electronic        |          70
+ acoustic          |          69
+ french            |          69
+ j-rock            |          62
+ synth-pop         |          56
+ world-music       |          56
+ grunge            |          54
+ j-dance           |          49
+ j-pop             |          46
+ psych-rock        |          43
+ tango             |          42
+ salsa             |          41
+ indie-pop         |          40
+ mpb               |          40
+ new-age           |          38
+ punk              |          37
+ garage            |          33
+ punk-rock         |          33
+ emo               |          32
+ rock-n-roll       |          29
+ rockabilly        |          28
+ spanish           |          28
+ brazil            |          25
+ drum-and-bass     |          25
+ ambient           |          22
+ trip-hop          |          22
+ breakbeat         |          21
+ club              |          21
+ afrobeat          |          20
+ dub               |          20
+ k-pop             |          20
+ techno            |          17
+ deep-house        |          15
+ samba             |          13
+ children          |          11
+ sleep             |          11
+ gospel            |          10
+ malay             |          10
+ minimal-techno    |          10
+ pagode            |          10
+ power-pop         |          10
+ trance            |           9
+ dubstep           |           8
+ groove            |           8
+ kids              |           8
+ chill             |           7
+ pop-film          |           6
+ ska               |           6
+ idm               |           5
+ metalcore         |           5
+ death-metal       |           4
+ swedish           |           4
+ goth              |           3
+ indian            |           3
+ industrial        |           3
+ chicago-house     |           2
+ anime             |           1
+ hardstyle         |           1
+ black-metal       |           0
+ cantopop          |           0
+ detroit-techno    |           0
+ forro             |           0
+ grindcore         |           0
+ happy             |           0
+ heavy-metal       |           0
+ iranian           |           0
+ j-idol            |           0
+ mandopop          |           0
+ party             |           0
+ romance           |           0
+ sad               |           0
+ sertanejo         |           0
+ study             |           0
+ turkish           |           0
+(114 rows)
+
+ decade |    genre_name     | grammy_wins 
+--------+-------------------+-------------
+   1950 | jazz              |          17
+   1950 | classical         |          10
+   1950 | blues             |           8
+   1950 | latin             |           4
+   1950 | children          |           4
+   1950 | mpb               |           4
+   1950 | rock              |           4
+   1950 | brazil            |           4
+   1950 | piano             |           3
+   1950 | rock-n-roll       |           3
+   1950 | rockabilly        |           3
+   1950 | show-tunes        |           2
+   1950 | j-rock            |           2
+   1950 | j-pop             |           1
+   1950 | guitar            |           1
+   1950 | opera             |           1
+   1950 | soul              |           1
+   1950 | french            |           1
+   1950 | german            |           1
+   1960 | jazz              |          59
+   1960 | classical         |          50
+   1960 | country           |          25
+   1960 | blues             |          25
+   1960 | opera             |          25
+   1960 | soul              |          22
+   1960 | piano             |          17
+   1960 | disco             |          15
+   1960 | folk              |          14
+   1960 | guitar            |          14
+   1960 | rock              |          14
+   1960 | german            |          14
+   1960 | british           |          14
+   1960 | songwriter        |          13
+   1960 | singer-songwriter |          13
+   1960 | latin             |          11
+   1960 | brazil            |          11
+   1960 | mpb               |          11
+   1960 | show-tunes        |          10
+   1960 | french            |          10
+   1960 | bluegrass         |           9
+   1960 | psych-rock        |           9
+   1960 | disney            |           9
+   1960 | r-n-b             |           7
+   1960 | funk              |           7
+   1960 | rock-n-roll       |           5
+   1960 | honky-tonk        |           5
+   1960 | samba             |           5
+   1960 | synth-pop         |           4
+   1960 | rockabilly        |           3
+   1960 | j-pop             |           3
+   1960 | ambient           |           2
+   1960 | power-pop         |           2
+   1960 | comedy            |           2
+   1960 | new-age           |           2
+   1960 | pop-film          |           1
+   1960 | sleep             |           1
+   1960 | k-pop             |           1
+   1960 | children          |           1
+   1960 | gospel            |           1
+   1970 | disco             |          72
+   1970 | soul              |          57
+   1970 | jazz              |          50
+   1970 | funk              |          38
+   1970 | folk              |          35
+   1970 | opera             |          35
+   1970 | rock              |          30
+   1970 | classical         |          30
+   1970 | country           |          30
+   1970 | singer-songwriter |          30
+   1970 | songwriter        |          30
+   1970 | blues             |          26
+   1970 | piano             |          24
+   1970 | bluegrass         |          18
+   1970 | guitar            |          17
+   1970 | show-tunes        |          16
+   1970 | indie             |          14
+   1970 | disney            |          12
+   1970 | tango             |           9
+   1970 | german            |           9
+   1970 | comedy            |           9
+   1970 | j-rock            |           8
+   1970 | french            |           8
+   1970 | honky-tonk        |           8
+   1970 | british           |           6
+   1970 | synth-pop         |           6
+   1970 | rock-n-roll       |           6
+   1970 | rockabilly        |           5
+   1970 | j-pop             |           4
+   1970 | hard-rock         |           4
+   1970 | psych-rock        |           4
+   1970 | sleep             |           3
+   1970 | r-n-b             |           3
+   1970 | salsa             |           3
+   1970 | new-age           |           1
+   1970 | chill             |           1
+   1970 | world-music       |           1
+   1980 | disco             |          65
+   1980 | soul              |          62
+   1980 | blues             |          48
+   1980 | jazz              |          48
+   1980 | funk              |          45
+   1980 | opera             |          44
+   1980 | rock              |          37
+   1980 | classical         |          32
+   1980 | country           |          32
+   1980 | singer-songwriter |          29
+   1980 | songwriter        |          29
+   1980 | folk              |          18
+   1980 | bluegrass         |          18
+   1980 | british           |          17
+   1980 | guitar            |          17
+   1980 | show-tunes        |          15
+   1980 | honky-tonk        |          13
+   1980 | j-rock            |          13
+   1980 | synth-pop         |          13
+   1980 | piano             |          13
+   1980 | disney            |          11
+   1980 | hard-rock         |          10
+   1980 | german            |           8
+   1980 | tango             |           8
+   1980 | salsa             |           8
+   1980 | comedy            |           7
+   1980 | r-n-b             |           7
+   1980 | new-age           |           6
+   1980 | edm               |           5
+   1980 | acoustic          |           5
+   1980 | indie             |           5
+   1980 | mpb               |           4
+   1980 | world-music       |           4
+   1980 | psych-rock        |           4
+   1980 | latin             |           4
+   1980 | metal             |           4
+   1980 | alternative       |           4
+   1980 | rockabilly        |           3
+   1980 | alt-rock          |           3
+   1980 | electro           |           3
+   1980 | house             |           3
+   1980 | progressive-house |           3
+   1980 | brazil            |           3
+   1980 | gospel            |           3
+   1980 | dub               |           3
+   1980 | rock-n-roll       |           3
+   1980 | ambient           |           2
+   1980 | french            |           2
+   1980 | garage            |           2
+   1980 | afrobeat          |           2
+   1980 | reggae            |           2
+   1980 | grunge            |           2
+   1980 | dancehall         |           1
+   1980 | reggaeton         |           1
+   1980 | ska               |           1
+   1980 | j-dance           |           1
+   1980 | punk              |           1
+   1980 | punk-rock         |           1
+   1980 | sleep             |           1
+   1990 | jazz              |          62
+   1990 | blues             |          58
+   1990 | rock              |          53
+   1990 | soul              |          51
+   1990 | opera             |          47
+   1990 | country           |          44
+   1990 | singer-songwriter |          41
+   1990 | songwriter        |          41
+   1990 | british           |          34
+   1990 | disco             |          29
+   1990 | metal             |          29
+   1990 | bluegrass         |          28
+   1990 | hard-rock         |          28
+   1990 | alternative       |          28
+   1990 | classical         |          26
+   1990 | funk              |          24
+   1990 | show-tunes        |          22
+   1990 | alt-rock          |          22
+   1990 | hardcore          |          22
+   1990 | piano             |          21
+   1990 | r-n-b             |          14
+   1990 | folk              |          14
+   1990 | honky-tonk        |          14
+   1990 | disney            |          13
+   1990 | acoustic          |          12
+   1990 | grunge            |          11
+   1990 | edm               |          11
+   1990 | j-rock            |           9
+   1990 | guitar            |           9
+   1990 | dance             |           9
+   1990 | synth-pop         |           9
+   1990 | german            |           8
+   1990 | salsa             |           8
+   1990 | pop               |           8
+   1990 | progressive-house |           8
+   1990 | new-age           |           8
+   1990 | latin             |           8
+   1990 | hip-hop           |           7
+   1990 | psych-rock        |           7
+   1990 | electro           |           7
+   1990 | indie             |           7
+   1990 | house             |           7
+   1990 | reggaeton         |           6
+   1990 | j-pop             |           6
+   1990 | j-dance           |           5
+   1990 | afrobeat          |           4
+   1990 | dancehall         |           4
+   1990 | world-music       |           4
+   1990 | tango             |           4
+   1990 | mpb               |           4
+   1990 | french            |           4
+   1990 | dub               |           4
+   1990 | electronic        |           3
+   1990 | industrial        |           3
+   1990 | spanish           |           3
+   1990 | samba             |           3
+   1990 | reggae            |           3
+   1990 | rockabilly        |           3
+   1990 | brazil            |           3
+   1990 | comedy            |           3
+   1990 | indie-pop         |           3
+   1990 | latino            |           2
+   1990 | ska               |           2
+   1990 | ambient           |           2
+   1990 | trance            |           2
+   1990 | power-pop         |           1
+   1990 | kids              |           1
+   1990 | punk              |           1
+   1990 | pagode            |           1
+   1990 | club              |           1
+   1990 | children          |           1
+   1990 | breakbeat         |           1
+   1990 | rock-n-roll       |           1
+   2000 | soul              |          91
+   2000 | country           |          90
+   2000 | rock              |          68
+   2000 | jazz              |          66
+   2000 | dance             |          60
+   2000 | blues             |          60
+   2000 | songwriter        |          54
+   2000 | singer-songwriter |          54
+   2000 | alternative       |          53
+   2000 | bluegrass         |          53
+   2000 | alt-rock          |          49
+   2000 | opera             |          45
+   2000 | latin             |          44
+   2000 | funk              |          40
+   2000 | metal             |          34
+   2000 | r-n-b             |          33
+   2000 | classical         |          31
+   2000 | hardcore          |          30
+   2000 | british           |          28
+   2000 | pop               |          27
+   2000 | show-tunes        |          26
+   2000 | dancehall         |          26
+   2000 | reggaeton         |          25
+   2000 | folk              |          25
+   2000 | hip-hop           |          25
+   2000 | piano             |          24
+   2000 | electro           |          24
+   2000 | reggae            |          24
+   2000 | edm               |          23
+   2000 | house             |          21
+   2000 | german            |          21
+   2000 | guitar            |          20
+   2000 | j-rock            |          20
+   2000 | garage            |          18
+   2000 | latino            |          18
+   2000 | honky-tonk        |          18
+   2000 | hard-rock         |          18
+   2000 | progressive-house |          17
+   2000 | world-music       |          16
+   2000 | disco             |          16
+   2000 | j-pop             |          16
+   2000 | punk              |          15
+   2000 | grunge            |          15
+   2000 | indie             |          15
+   2000 | acoustic          |          14
+   2000 | disney            |          13
+   2000 | synth-pop         |          13
+   2000 | punk-rock         |          12
+   2000 | french            |          12
+   2000 | salsa             |          12
+   2000 | comedy            |          12
+   2000 | emo               |          12
+   2000 | breakbeat         |           9
+   2000 | spanish           |           9
+   2000 | mpb               |           7
+   2000 | j-dance           |           7
+   2000 | psych-rock        |           7
+   2000 | afrobeat          |           6
+   2000 | drum-and-bass     |           6
+   2000 | new-age           |           6
+   2000 | tango             |           5
+   2000 | kids              |           5
+   2000 | malay             |           5
+   2000 | electronic        |           5
+   2000 | gospel            |           4
+   2000 | indie-pop         |           4
+   2000 | k-pop             |           3
+   2000 | dub               |           3
+   2000 | trip-hop          |           3
+   2000 | pagode            |           3
+   2000 | ska               |           3
+   2000 | ambient           |           3
+   2000 | power-pop         |           3
+   2000 | samba             |           2
+   2000 | minimal-techno    |           2
+   2000 | club              |           2
+   2000 | death-metal       |           2
+   2000 | deep-house        |           1
+   2000 | pop-film          |           1
+   2000 | rock-n-roll       |           1
+   2000 | children          |           1
+   2000 | techno            |           1
+   2000 | rockabilly        |           1
+   2000 | sleep             |           1
+   2000 | indian            |           1
+   2000 | goth              |           1
+   2000 | brazil            |           1
+   2010 | dance             |         124
+   2010 | hip-hop           |          99
+   2010 | soul              |          89
+   2010 | electro           |          85
+   2010 | pop               |          85
+   2010 | country           |          78
+   2010 | latin             |          64
+   2010 | edm               |          56
+   2010 | alternative       |          55
+   2010 | house             |          54
+   2010 | opera             |          53
+   2010 | rock              |          52
+   2010 | reggae            |          51
+   2010 | reggaeton         |          49
+   2010 | dancehall         |          48
+   2010 | progressive-house |          46
+   2010 | alt-rock          |          45
+   2010 | folk              |          45
+   2010 | latino            |          45
+   2010 | electronic        |          44
+   2010 | comedy            |          43
+   2010 | blues             |          41
+   2010 | jazz              |          41
+   2010 | bluegrass         |          36
+   2010 | british           |          33
+   2010 | indie             |          31
+   2010 | show-tunes        |          29
+   2010 | world-music       |          29
+   2010 | classical         |          28
+   2010 | acoustic          |          28
+   2010 | funk              |          27
+   2010 | german            |          27
+   2010 | indie-pop         |          24
+   2010 | j-dance           |          22
+   2010 | piano             |          21
+   2010 | hardcore          |          21
+   2010 | metal             |          20
+   2010 | punk              |          20
+   2010 | punk-rock         |          19
+   2010 | grunge            |          18
+   2010 | disney            |          16
+   2010 | singer-songwriter |          16
+   2010 | songwriter        |          16
+   2010 | club              |          16
+   2010 | french            |          15
+   2010 | spanish           |          14
+   2010 | r-n-b             |          14
+   2010 | trip-hop          |          13
+   2010 | drum-and-bass     |          13
+   2010 | techno            |          12
+   2010 | j-pop             |          11
+   2010 | guitar            |          11
+   2010 | k-pop             |          10
+   2010 | tango             |          10
+   2010 | breakbeat         |          10
+   2010 | hard-rock         |          10
+   2010 | ambient           |           9
+   2010 | dub               |           9
+   2010 | psych-rock        |           9
+   2010 | honky-tonk        |           9
+   2010 | garage            |           9
+   2010 | synth-pop         |           8
+   2010 | deep-house        |           7
+   2010 | emo               |           7
+   2010 | new-age           |           7
+   2010 | salsa             |           7
+   2010 | j-rock            |           6
+   2010 | dubstep           |           6
+   2010 | mpb               |           6
+   2010 | minimal-techno    |           6
+   2010 | afrobeat          |           6
+   2010 | trance            |           5
+   2010 | metalcore         |           5
+   2010 | chill             |           5
+   2010 | idm               |           4
+   2010 | disco             |           4
+   2010 | pagode            |           4
+   2010 | swedish           |           3
+   2010 | malay             |           3
+   2010 | rockabilly        |           3
+   2010 | rock-n-roll       |           3
+   2010 | sleep             |           3
+   2010 | children          |           3
+   2010 | death-metal       |           2
+   2010 | groove            |           2
+   2010 | power-pop         |           2
+   2010 | pop-film          |           1
+   2010 | kids              |           1
+   2010 | goth              |           1
+   2010 | hardstyle         |           1
+   2010 | chicago-house     |           1
+(406 rows)
+
+    genre_name     | winner_artists | genre_artists | pct_winner_artists 
+-------------------+----------------+---------------+--------------------
+ soul              |             91 |           316 |              28.80
+ country           |             80 |           256 |              31.25
+ rock              |             80 |           257 |              31.13
+ opera             |             69 |           733 |               9.41
+ jazz              |             68 |           282 |              24.11
+ dance             |             65 |           295 |              22.03
+ show-tunes        |             60 |           865 |               6.94
+ alternative       |             59 |           335 |              17.61
+ blues             |             58 |           346 |              16.76
+ classical         |             58 |           660 |               8.79
+ latin             |             54 |           329 |              16.41
+ electro           |             53 |           491 |              10.79
+ alt-rock          |             50 |           351 |              14.25
+ disco             |             50 |           564 |               8.87
+ hip-hop           |             50 |           473 |              10.57
+ edm               |             49 |           618 |               7.93
+ bluegrass         |             48 |           261 |              18.39
+ house             |             45 |           591 |               7.61
+ pop               |             44 |           588 |               7.48
+ singer-songwriter |             41 |           321 |              12.77
+ songwriter        |             41 |           321 |              12.77
+ electronic        |             40 |           778 |               5.14
+ folk              |             40 |           449 |               8.91
+ funk              |             40 |           678 |               5.90
+ metal             |             37 |           274 |              13.50
+ dancehall         |             36 |           546 |               6.59
+ british           |             34 |           320 |              10.63
+ progressive-house |             34 |           771 |               4.41
+ reggae            |             34 |           368 |               9.24
+ german            |             32 |           576 |               5.56
+ piano             |             31 |           370 |               8.38
+ reggaeton         |             31 |           394 |               7.87
+ hardcore          |             28 |           564 |               4.96
+ hard-rock         |             28 |           225 |              12.44
+ latino            |             26 |           374 |               6.95
+ r-n-b             |             26 |           333 |               7.81
+ new-age           |             25 |           236 |              10.59
+ indie             |             24 |           453 |               5.30
+ guitar            |             23 |           383 |               6.01
+ disney            |             22 |           567 |               3.88
+ acoustic          |             19 |           348 |               5.46
+ comedy            |             19 |           261 |               7.28
+ world-music       |             19 |           221 |               8.60
+ honky-tonk        |             18 |            83 |              21.69
+ j-pop             |             18 |           353 |               5.10
+ spanish           |             18 |           483 |               3.73
+ rock-n-roll       |             16 |           258 |               6.20
+ dub               |             15 |           748 |               2.01
+ grunge            |             15 |           166 |               9.04
+ rockabilly        |             15 |           211 |               7.11
+ salsa             |             15 |           328 |               4.57
+ ambient           |             14 |           393 |               3.56
+ french            |             14 |           681 |               2.06
+ j-dance           |             14 |           362 |               3.87
+ psych-rock        |             14 |           221 |               6.33
+ trip-hop          |             14 |           363 |               3.86
+ synth-pop         |             13 |           277 |               4.69
+ indie-pop         |             12 |           414 |               2.90
+ j-rock            |             11 |           286 |               3.85
+ punk              |             11 |           384 |               2.86
+ techno            |             10 |           609 |               1.64
+ punk-rock         |              9 |           338 |               2.66
+ afrobeat          |              8 |           387 |               2.07
+ drum-and-bass     |              8 |           609 |               1.31
+ emo               |              8 |           394 |               2.03
+ garage            |              8 |           391 |               2.05
+ trance            |              8 |           677 |               1.18
+ breakbeat         |              7 |           402 |               1.74
+ club              |              7 |           399 |               1.75
+ deep-house        |              7 |           869 |               0.81
+ dubstep           |              7 |           720 |               0.97
+ k-pop             |              7 |           405 |               1.73
+ minimal-techno    |              7 |           490 |               1.43
+ mpb               |              7 |           344 |               2.03
+ groove            |              6 |           495 |               1.21
+ pagode            |              6 |           242 |               2.48
+ power-pop         |              6 |           188 |               3.19
+ samba             |              6 |           271 |               2.21
+ sleep             |              6 |           507 |               1.18
+ tango             |              6 |           294 |               2.04
+ brazil            |              5 |           547 |               0.91
+ chill             |              5 |           506 |               0.99
+ pop-film          |              5 |           564 |               0.89
+ ska               |              5 |           308 |               1.62
+ children          |              4 |           161 |               2.48
+ idm               |              4 |           233 |               1.72
+ kids              |              4 |           182 |               2.20
+ metalcore         |              4 |           259 |               1.54
+ swedish           |              4 |           470 |               0.85
+ death-metal       |              3 |           246 |               1.22
+ gospel            |              3 |           322 |               0.93
+ indian            |              3 |           560 |               0.54
+ malay             |              3 |           485 |               0.62
+ chicago-house     |              2 |           361 |               0.55
+ goth              |              2 |           262 |               0.76
+ industrial        |              2 |           218 |               0.92
+ anime             |              1 |           355 |               0.28
+ hardstyle         |              1 |           528 |               0.19
+ black-metal       |              0 |           275 |               0.00
+ cantopop          |              0 |           248 |               0.00
+ detroit-techno    |              0 |           203 |               0.00
+ forro             |              0 |           234 |               0.00
+ grindcore         |              0 |           132 |               0.00
+ happy             |              0 |           348 |               0.00
+ heavy-metal       |              0 |           109 |               0.00
+ iranian           |              0 |           166 |               0.00
+ j-idol            |              0 |           100 |               0.00
+ mandopop          |              0 |           331 |               0.00
+ party             |              0 |           306 |               0.00
+ romance           |              0 |           189 |               0.00
+ sad               |              0 |           436 |               0.00
+ sertanejo         |              0 |           246 |               0.00
+ study             |              0 |           236 |               0.00
+ turkish           |              0 |           454 |               0.00
+(114 rows)
+
+ grammy_decade | tracks | danceability | energy | valence | loudness_db | tempo_bpm | duration_min 
+---------------+--------+--------------+--------+---------+-------------+-----------+--------------
+ 1950          |     11 |        0.540 |  0.465 |   0.618 |      -12.73 |     116.4 |         2.55
+ 1960          |     59 |        0.521 |  0.467 |   0.565 |      -10.54 |     121.8 |         2.96
+ 1970          |     66 |        0.564 |  0.507 |   0.608 |      -11.11 |     111.8 |         4.09
+ 1980          |    100 |        0.575 |  0.475 |   0.487 |      -12.41 |     117.2 |         4.12
+ 1990          |    240 |        0.549 |  0.462 |   0.555 |      -10.42 |     120.6 |         3.42
+ 2000          |    243 |        0.553 |  0.619 |   0.502 |       -7.74 |     121.4 |         4.29
+ 2010          |    394 |        0.574 |  0.590 |   0.450 |       -7.52 |     123.2 |         3.95
+ catalogue     |  89740 |        0.562 |  0.634 |   0.469 |       -8.50 |     122.3 |         3.82
+(8 rows)
+
+ grammy_rows | matchable_rows | matched_rows | match_rate_of_matchable_pct | match_rate_of_all_pct 
+-------------+----------------+--------------+-----------------------------+-----------------------
+        4810 |           4257 |          544 |                       12.78 |                 11.31
+(1 row)
+
+    genre_name     | grammy_wins | winner_artists | genre_artists | pct_winner_artists 
+-------------------+-------------+----------------+---------------+--------------------
+ soul              |         439 |             91 |           316 |              28.80
+ jazz              |         364 |             68 |           282 |              24.11
+ country           |         335 |             80 |           256 |              31.25
+ opera             |         298 |             69 |           733 |               9.41
+ blues             |         291 |             58 |           346 |              16.76
+ rock              |         270 |             80 |           257 |              31.13
+ classical         |         251 |             58 |           660 |               8.79
+ dance             |         244 |             65 |           295 |              22.03
+ disco             |         226 |             50 |           564 |               8.87
+ funk              |         202 |             40 |           678 |               5.90
+ bluegrass         |         194 |             48 |           261 |              18.39
+ singer-songwriter |         193 |             41 |           321 |              12.77
+ songwriter        |         193 |             41 |           321 |              12.77
+ hip-hop           |         183 |             50 |           473 |              10.57
+ folk              |         160 |             40 |           449 |               8.91
+ latin             |         160 |             54 |           329 |              16.41
+ show-tunes        |         154 |             60 |           865 |               6.94
+ british           |         152 |             34 |           320 |              10.63
+ electro           |         152 |             53 |           491 |              10.79
+ alternative       |         146 |             59 |           335 |              17.61
+ piano             |         141 |             31 |           370 |               8.38
+ pop               |         139 |             44 |           588 |               7.48
+ edm               |         123 |             49 |           618 |               7.93
+ alt-rock          |         119 |             50 |           351 |              14.25
+ house             |         115 |             45 |           591 |               7.61
+ german            |         110 |             32 |           576 |               5.56
+ dancehall         |         102 |             36 |           546 |               6.59
+ r-n-b             |          98 |             26 |           333 |               7.81
+ guitar            |          96 |             23 |           383 |               6.01
+ progressive-house |          95 |             34 |           771 |               4.41
+ hardcore          |          94 |             28 |           564 |               4.96
+ reggaeton         |          92 |             31 |           394 |               7.87
+ disney            |          91 |             22 |           567 |               3.88
+ reggae            |          91 |             34 |           368 |               9.24
+ comedy            |          89 |             19 |           261 |               7.28
+ metal             |          88 |             37 |           274 |              13.50
+ indie             |          87 |             24 |           453 |               5.30
+ latino            |          77 |             26 |           374 |               6.95
+ honky-tonk        |          75 |             18 |            83 |              21.69
+ hard-rock         |          74 |             28 |           225 |              12.44
+ electronic        |          70 |             40 |           778 |               5.14
+ acoustic          |          69 |             19 |           348 |               5.46
+ french            |          69 |             14 |           681 |               2.06
+ j-rock            |          62 |             11 |           286 |               3.85
+ synth-pop         |          56 |             13 |           277 |               4.69
+ world-music       |          56 |             19 |           221 |               8.60
+ grunge            |          54 |             15 |           166 |               9.04
+ j-dance           |          49 |             14 |           362 |               3.87
+ j-pop             |          46 |             18 |           353 |               5.10
+ psych-rock        |          43 |             14 |           221 |               6.33
+ tango             |          42 |              6 |           294 |               2.04
+ salsa             |          41 |             15 |           328 |               4.57
+ indie-pop         |          40 |             12 |           414 |               2.90
+ mpb               |          40 |              7 |           344 |               2.03
+ new-age           |          38 |             25 |           236 |              10.59
+ punk              |          37 |             11 |           384 |               2.86
+ garage            |          33 |              8 |           391 |               2.05
+ punk-rock         |          33 |              9 |           338 |               2.66
+ emo               |          32 |              8 |           394 |               2.03
+ rock-n-roll       |          29 |             16 |           258 |               6.20
+ rockabilly        |          28 |             15 |           211 |               7.11
+ spanish           |          28 |             18 |           483 |               3.73
+ brazil            |          25 |              5 |           547 |               0.91
+ drum-and-bass     |          25 |              8 |           609 |               1.31
+ ambient           |          22 |             14 |           393 |               3.56
+ trip-hop          |          22 |             14 |           363 |               3.86
+ breakbeat         |          21 |              7 |           402 |               1.74
+ club              |          21 |              7 |           399 |               1.75
+ afrobeat          |          20 |              8 |           387 |               2.07
+ dub               |          20 |             15 |           748 |               2.01
+ k-pop             |          20 |              7 |           405 |               1.73
+ techno            |          17 |             10 |           609 |               1.64
+ deep-house        |          15 |              7 |           869 |               0.81
+ samba             |          13 |              6 |           271 |               2.21
+ children          |          11 |              4 |           161 |               2.48
+ sleep             |          11 |              6 |           507 |               1.18
+ gospel            |          10 |              3 |           322 |               0.93
+ malay             |          10 |              3 |           485 |               0.62
+ minimal-techno    |          10 |              7 |           490 |               1.43
+ pagode            |          10 |              6 |           242 |               2.48
+ power-pop         |          10 |              6 |           188 |               3.19
+ trance            |           9 |              8 |           677 |               1.18
+ dubstep           |           8 |              7 |           720 |               0.97
+ groove            |           8 |              6 |           495 |               1.21
+ kids              |           8 |              4 |           182 |               2.20
+ chill             |           7 |              5 |           506 |               0.99
+ pop-film          |           6 |              5 |           564 |               0.89
+ ska               |           6 |              5 |           308 |               1.62
+ idm               |           5 |              4 |           233 |               1.72
+ metalcore         |           5 |              4 |           259 |               1.54
+ death-metal       |           4 |              3 |           246 |               1.22
+ swedish           |           4 |              4 |           470 |               0.85
+ goth              |           3 |              2 |           262 |               0.76
+ indian            |           3 |              3 |           560 |               0.54
+ industrial        |           3 |              2 |           218 |               0.92
+ chicago-house     |           2 |              2 |           361 |               0.55
+ anime             |           1 |              1 |           355 |               0.28
+ hardstyle         |           1 |              1 |           528 |               0.19
+ black-metal       |           0 |              0 |           275 |               0.00
+ cantopop          |           0 |              0 |           248 |               0.00
+ detroit-techno    |           0 |              0 |           203 |               0.00
+ forro             |           0 |              0 |           234 |               0.00
+ grindcore         |           0 |              0 |           132 |               0.00
+ happy             |           0 |              0 |           348 |               0.00
+ heavy-metal       |           0 |              0 |           109 |               0.00
+ iranian           |           0 |              0 |           166 |               0.00
+ j-idol            |           0 |              0 |           100 |               0.00
+ mandopop          |           0 |              0 |           331 |               0.00
+ party             |           0 |              0 |           306 |               0.00
+ romance           |           0 |              0 |           189 |               0.00
+ sad               |           0 |              0 |           436 |               0.00
+ sertanejo         |           0 |              0 |           246 |               0.00
+ study             |           0 |              0 |           236 |               0.00
+ turkish           |           0 |              0 |           454 |               0.00
+(114 rows)
+

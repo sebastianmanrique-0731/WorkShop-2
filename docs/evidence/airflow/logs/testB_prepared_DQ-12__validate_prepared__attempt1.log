@@ -1,0 +1,7 @@
+# Airflow task log (readable) - run_id=testB_prepared_DQ-12 task_id=validate_prepared attempt=1
+# source: airflow/logs/dag_id=reliable_music_pipeline/run_id=testB_prepared_DQ-12/task_id=validate_prepared/attempt=1.log
+
+2026-10-08T21:35:09.299  WARNING validation: [prepared] WARNING rule DQ-17 failed (batch testB_prepared_DQ-12) - continuing under documented policy
+2026-10-08T21:35:09.300  ERROR   task: Task failed with exception
+    -> AirflowFailException: DataQualityError: Gate prepared FAILED on critical rule(s) ['DQ-12'] (batch testB_prepared_DQ-12). Evidence: /opt/airflow/docs/evidence/validation/prepared__testB_prepared_DQ-12.json  [/opt/airflow/dags/reliable_music_pipeline.py:54]
+    -> DataQualityError: Gate prepared FAILED on critical rule(s) ['DQ-12'] (batch testB_prepared_DQ-12). Evidence: /opt/airflow/docs/evidence/validation/prepared__testB_prepared_DQ-12.json  [/opt/airflow/src/validation.py:443]

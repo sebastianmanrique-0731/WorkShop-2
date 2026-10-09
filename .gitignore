@@ -1,0 +1,32 @@
+# Secrets and local configuration
+.env
+*.pem
+*.key
+
+# Airflow runtime artifacts
+airflow/logs/
+airflow/config/*.generated
+airflow/config/*.json
+__pycache__/
+*.pyc
+
+# Python / notebooks
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Staging data produced by pipeline runs (reproducible, not versioned)
+data/staging/
+data/quarantine/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# NOTE: data/raw/*.csv ARE versioned on purpose: they are the preserved original inputs.
+# The largest (Spotify, ~19 MB) is far below GitHub's 100 MB per-file limit, so Git LFS is not needed.
+
+
+# Great Expectations local artifacts
+gx/uncommitted/

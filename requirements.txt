@@ -1,0 +1,6 @@
+# Installed on top of apache-airflow==3.1.8 inside the custom image (see Dockerfile).
+# Airflow itself is pinned in the Dockerfile so pip cannot upgrade/downgrade it.
+great-expectations>=1.9,<2.0
+pandas>=2.2
+pyarrow>=15
+psycopg2-binary>=2.9

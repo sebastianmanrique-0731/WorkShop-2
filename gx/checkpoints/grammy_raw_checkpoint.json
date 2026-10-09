@@ -1,0 +1,14 @@
+{
+  "actions": [],
+  "id": "ac942ce8-1fa6-409d-b221-cdb6d2fa6526",
+  "name": "grammy_raw_checkpoint",
+  "result_format": {
+    "result_format": "SUMMARY"
+  },
+  "validation_definitions": [
+    {
+      "id": "06898f96-d94e-4b41-a51f-bd7c71916ac8",
+      "name": "grammy_raw_validation"
+    }
+  ]
+}

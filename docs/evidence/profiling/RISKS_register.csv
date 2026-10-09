@@ -1,0 +1,15 @@
+risk_id,dataset_attribute,evidence_id,profiling_evidence,quality_dimension,related_requirement
+RISK-01,Grammy / winner,P-G-07,winner = True in 4810 of 4810 rows (100%); no nominees who lost,Validity / consistency,"AR-01, AR-02, AR-03"
+RISK-02,Grammy / artist,"P-G-02, P-G-08, P-G-09",1840 missing (38.25%); Song Of The Year: 70 of 70 missing; credits column `workers` present in 1654 of the missing rows,Completeness,"AR-01, AR-02, AR-03"
+RISK-03,Grammy / nominee,P-G-02,6 rows with missing nominee (Remixer / New Country Artist categories),Completeness,AR-03
+RISK-04,"Spotify / track_id, track_genre",P-S-03,24259 repeated track_id rows across genres; 450 exact duplicates; 720 ids with different popularity per genre,Uniqueness,"AR-01, AR-02, AR-03"
+RISK-05,Spotify / artists,P-S-04,30075 rows (26.4%) hold several artists separated by ';'; 8 with trailing spaces,Consistency / validity,"AR-01, AR-02"
+RISK-06,Both / artist names (integration key),"P-X-01, P-X-04","no shared ID; exact match 31.2% -> normalized 33.1% -> split 38.6%; 9 matches with <=3 chars; 480 composite Grammy strings, 19 of them exist intact in Spotify",Consistency,"AR-01, AR-02, AR-03"
+RISK-07,Both / coverage of Grammy artists in Spotify,"P-X-01, P-X-02, P-X-03",only 33.1% of distinct Grammy artists exist in Spotify (normalized); row-level match is 39.0%-48.3% across decades (no strong era skew); matched Grammy rows overall: 9.2% at track/album level,Completeness / representativeness,"AR-01, AR-02, AR-03"
+RISK-08,"Spotify / tempo, time_signature, duration_ms, loudness",P-S-06,"tempo=0 in 157, time_signature=0 in 163, duration_ms=0 in 1, loudness>0 dB in 90",Validity,AR-03
+RISK-09,Spotify / popularity,P-S-06,popularity = 0 in 16020 rows (14.1%): real zero or missing-data placeholder,Validity / accuracy,AR-01
+RISK-10,"Spotify / artists, album_name, track_name",P-S-02,"one row (csv_index 65900) missing artists, album_name and track_name, duration_ms=0",Completeness,"AR-01, AR-02, AR-03"
+RISK-11,Grammy / category,P-G-04,638 distinct labels vs 630 after lower+strip: case-only spelling variants,Consistency,AR-03
+RISK-12,"Grammy / year, published_at; Spotify / (no date)",P-G-06,"published_at has 4 distinct values (web publication, not award date); year is an award label; Spotify has no release date",Validity / timeliness,AR-03
+RISK-13,Grammy / artist = '(Various Artists)',P-G-05,"66 rows whose artist is a placeholder, not an artist",Validity,"AR-01, AR-02"
+RISK-14,Grammy / nominee semantics,P-X-03,"nominee is a song, an album or a person depending on category; track-name match 294 vs album-name match 298 of 2970 rows",Consistency,AR-03

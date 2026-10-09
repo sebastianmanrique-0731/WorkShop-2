@@ -1,0 +1,14 @@
+{
+  "actions": [],
+  "id": "a70c3b0b-913a-495c-abab-a0c5be7eff54",
+  "name": "prepared_track_artist_checkpoint",
+  "result_format": {
+    "result_format": "SUMMARY"
+  },
+  "validation_definitions": [
+    {
+      "id": "a8f51d2b-6934-47eb-ba9d-35446d0c44da",
+      "name": "prepared_track_artist_validation"
+    }
+  ]
+}

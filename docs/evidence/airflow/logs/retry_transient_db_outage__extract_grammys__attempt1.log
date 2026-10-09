@@ -1,0 +1,5 @@
+# Airflow task log (readable) - run_id=retry_transient_db_outage task_id=extract_grammys attempt=1
+# source: airflow/logs/dag_id=reliable_music_pipeline/run_id=retry_transient_db_outage/task_id=extract_grammys/attempt=1.log
+
+2026-10-08T21:35:54.050  ERROR   task: Task failed with exception
+    -> OperationalError: could not translate host name "postgres-data" to address: Name or service not known  [/opt/airflow/src/extract.py:148]

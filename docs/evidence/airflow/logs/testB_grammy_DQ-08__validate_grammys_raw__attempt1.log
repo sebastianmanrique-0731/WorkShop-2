@@ -1,0 +1,6 @@
+# Airflow task log (readable) - run_id=testB_grammy_DQ-08 task_id=validate_grammys_raw attempt=1
+# source: airflow/logs/dag_id=reliable_music_pipeline/run_id=testB_grammy_DQ-08/task_id=validate_grammys_raw/attempt=1.log
+
+2026-10-08T21:34:03.570  ERROR   task: Task failed with exception
+    -> AirflowFailException: DataQualityError: Gate raw_grammy FAILED on critical rule(s) ['DQ-08'] (batch testB_grammy_DQ-08). Evidence: /opt/airflow/docs/evidence/validation/raw_grammy__testB_grammy_DQ-08.json  [/opt/airflow/dags/reliable_music_pipeline.py:54]
+    -> DataQualityError: Gate raw_grammy FAILED on critical rule(s) ['DQ-08'] (batch testB_grammy_DQ-08). Evidence: /opt/airflow/docs/evidence/validation/raw_grammy__testB_grammy_DQ-08.json  [/opt/airflow/src/validation.py:443]

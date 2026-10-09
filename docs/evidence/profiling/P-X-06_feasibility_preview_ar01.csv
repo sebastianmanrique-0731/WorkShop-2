@@ -1,0 +1,3 @@
+is_grammy_artist,artist_track_pairs,distinct_artists,avg_popularity
+False,116233,29226,33.46
+True,7191,536,33.11

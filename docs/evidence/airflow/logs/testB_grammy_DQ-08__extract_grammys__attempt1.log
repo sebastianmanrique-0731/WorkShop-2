@@ -1,0 +1,7 @@
+# Airflow task log (readable) - run_id=testB_grammy_DQ-08 task_id=extract_grammys attempt=1
+# source: airflow/logs/dag_id=reliable_music_pipeline/run_id=testB_grammy_DQ-08/task_id=extract_grammys/attempt=1.log
+
+2026-10-08T21:33:53.636  WARNING extract: CONTROLLED FAULT INJECTED: grammy_year_out_of_range -> will violate DQ-08 (source=grammy)
+2026-10-08T21:33:53.692  INFO    extract: [extract_grammys] batch=testB_grammy_DQ-08 rows=4810 (db count=4810) from grammy_source.grammy_awards fault=grammy_year_out_of_range
+2026-10-08T21:33:53.693  INFO    airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator: Done. Returned value was: {'source': 'grammy', 'batch_id': 'testB_grammy_DQ-08', 'staged_path': '/opt/airflow/data/staging/testB_grammy_DQ-08/grammy_raw.parquet', 'staged_sha256': 'bf35269eba61fa461927fe24311e68ed4e3ae7297889299dd9bee45482369eeb', 'rows': 4810, 'columns': ['grammy_row_id', 'year', 'title', 'published_at', 'updated_at', 'category', 'nominee', 'artist', 'workers', 'img', 'winner'], 'origin': 'postgres_table', 'origin_database': 'grammy_source', 'origin_table': 'grammy_awards', 'db_row_count': 4810, 'fault_injected': 'grammy_year_out_of_range', 'fault_rule': 'DQ-08'}
+2026-10-08T21:33:53.694  INFO    task: Pushing xcom

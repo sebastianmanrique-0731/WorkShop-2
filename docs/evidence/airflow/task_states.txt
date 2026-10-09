@@ -1,0 +1,66 @@
+## run_id = testA_success
+dag_id                  | logical_date | task_id                 | state   | start_date                       | end_date                        
+========================+==============+=========================+=========+==================================+=================================
+reliable_music_pipeline |              | extract_spotify         | success | 2026-10-08T21:29:35.109845+00:00 | 2026-10-08T21:29:40.533892+00:00
+reliable_music_pipeline |              | extract_grammys         | success | 2026-10-08T21:29:35.109842+00:00 | 2026-10-08T21:29:39.992131+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | success | 2026-10-08T21:29:40.147987+00:00 | 2026-10-08T21:29:44.322807+00:00
+reliable_music_pipeline |              | validate_spotify_raw    | success | 2026-10-08T21:29:41.160974+00:00 | 2026-10-08T21:29:46.180383+00:00
+reliable_music_pipeline |              | transform_and_integrate | success | 2026-10-08T21:29:47.061005+00:00 | 2026-10-08T21:29:53.329549+00:00
+reliable_music_pipeline |              | validate_prepared       | success | 2026-10-08T21:29:53.728777+00:00 | 2026-10-08T21:29:59.213705+00:00
+reliable_music_pipeline |              | load_dw                 | success | 2026-10-08T21:30:00.195274+00:00 | 2026-10-08T21:30:09.251202+00:00
+
+## run_id = testA_rerun_same_batch
+dag_id                  | logical_date | task_id                 | state   | start_date                       | end_date                        
+========================+==============+=========================+=========+==================================+=================================
+reliable_music_pipeline |              | extract_grammys         | success | 2026-10-08T21:30:24.762179+00:00 | 2026-10-08T21:30:29.930889+00:00
+reliable_music_pipeline |              | extract_spotify         | success | 2026-10-08T21:30:24.762178+00:00 | 2026-10-08T21:30:30.485458+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | success | 2026-10-08T21:30:30.280881+00:00 | 2026-10-08T21:30:37.159735+00:00
+reliable_music_pipeline |              | validate_spotify_raw    | success | 2026-10-08T21:30:31.388493+00:00 | 2026-10-08T21:30:38.731537+00:00
+reliable_music_pipeline |              | transform_and_integrate | success | 2026-10-08T21:30:39.293567+00:00 | 2026-10-08T21:30:46.935036+00:00
+reliable_music_pipeline |              | validate_prepared       | success | 2026-10-08T21:30:47.225756+00:00 | 2026-10-08T21:30:52.134301+00:00
+reliable_music_pipeline |              | load_dw                 | success | 2026-10-08T21:30:52.911644+00:00 | 2026-10-08T21:31:03.801200+00:00
+
+## run_id = testB_grammy_DQ-08
+dag_id                  | logical_date | task_id                 | state           | start_date                       | end_date                        
+========================+==============+=========================+=================+==================================+=================================
+reliable_music_pipeline |              | extract_spotify         | success         | 2026-10-08T21:33:49.657279+00:00 | 2026-10-08T21:33:54.395103+00:00
+reliable_music_pipeline |              | extract_grammys         | success         | 2026-10-08T21:33:49.658899+00:00 | 2026-10-08T21:33:53.836000+00:00
+reliable_music_pipeline |              | transform_and_integrate | upstream_failed | 2026-10-08T21:34:08.630918+00:00 | 2026-10-08T21:34:08.630918+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | failed          | 2026-10-08T21:33:54.144373+00:00 | 2026-10-08T21:34:08.596269+00:00
+reliable_music_pipeline |              | validate_prepared       | upstream_failed | 2026-10-08T21:34:09.654920+00:00 | 2026-10-08T21:34:09.654920+00:00
+reliable_music_pipeline |              | load_dw                 | upstream_failed | 2026-10-08T21:34:10.676970+00:00 | 2026-10-08T21:34:10.676970+00:00
+reliable_music_pipeline |              | validate_spotify_raw    | success         | 2026-10-08T21:33:55.283746+00:00 | 2026-10-08T21:34:05.237203+00:00
+
+## run_id = testB_spotify_DQ-03
+dag_id                  | logical_date | task_id                 | state           | start_date                       | end_date                        
+========================+==============+=========================+=================+==================================+=================================
+reliable_music_pipeline |              | extract_spotify         | success         | 2026-10-08T21:34:23.094134+00:00 | 2026-10-08T21:34:27.448388+00:00
+reliable_music_pipeline |              | extract_grammys         | success         | 2026-10-08T21:34:23.094125+00:00 | 2026-10-08T21:34:27.191048+00:00
+reliable_music_pipeline |              | transform_and_integrate | upstream_failed | 2026-10-08T21:34:32.828956+00:00 | 2026-10-08T21:34:32.828956+00:00
+reliable_music_pipeline |              | validate_spotify_raw    | failed          | 2026-10-08T21:34:27.704896+00:00 | 2026-10-08T21:34:32.228222+00:00
+reliable_music_pipeline |              | validate_prepared       | upstream_failed | 2026-10-08T21:34:33.862506+00:00 | 2026-10-08T21:34:33.862506+00:00
+reliable_music_pipeline |              | load_dw                 | upstream_failed | 2026-10-08T21:34:34.890043+00:00 | 2026-10-08T21:34:34.890043+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | success         | 2026-10-08T21:34:27.703199+00:00 | 2026-10-08T21:34:31.506184+00:00
+
+## run_id = testB_prepared_DQ-12
+dag_id                  | logical_date | task_id                 | state           | start_date                       | end_date                        
+========================+==============+=========================+=================+==================================+=================================
+reliable_music_pipeline |              | validate_spotify_raw    | success         | 2026-10-08T21:34:53.117182+00:00 | 2026-10-08T21:34:57.720549+00:00
+reliable_music_pipeline |              | extract_spotify         | success         | 2026-10-08T21:34:47.780215+00:00 | 2026-10-08T21:34:52.817186+00:00
+reliable_music_pipeline |              | extract_grammys         | success         | 2026-10-08T21:34:47.759927+00:00 | 2026-10-08T21:34:52.510544+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | success         | 2026-10-08T21:34:53.118535+00:00 | 2026-10-08T21:34:56.918781+00:00
+reliable_music_pipeline |              | transform_and_integrate | success         | 2026-10-08T21:34:57.838350+00:00 | 2026-10-08T21:35:03.373499+00:00
+reliable_music_pipeline |              | load_dw                 | upstream_failed | 2026-10-08T21:35:14.946260+00:00 | 2026-10-08T21:35:14.946260+00:00
+reliable_music_pipeline |              | validate_prepared       | failed          | 2026-10-08T21:35:03.992144+00:00 | 2026-10-08T21:35:14.329219+00:00
+
+## run_id = retry_transient_db_outage
+dag_id                  | logical_date | task_id                 | state   | start_date                       | end_date                        
+========================+==============+=========================+=========+==================================+=================================
+reliable_music_pipeline |              | validate_spotify_raw    | success | 2026-10-08T21:35:55.237911+00:00 | 2026-10-08T21:35:59.347053+00:00
+reliable_music_pipeline |              | extract_spotify         | success | 2026-10-08T21:35:49.913606+00:00 | 2026-10-08T21:35:54.436774+00:00
+reliable_music_pipeline |              | extract_grammys         | success | 2026-10-08T21:36:38.071018+00:00 | 2026-10-08T21:36:50.452930+00:00
+reliable_music_pipeline |              | validate_grammys_raw    | success | 2026-10-08T21:36:50.839942+00:00 | 2026-10-08T21:36:56.656290+00:00
+reliable_music_pipeline |              | transform_and_integrate | success | 2026-10-08T21:36:57.148700+00:00 | 2026-10-08T21:37:04.721647+00:00
+reliable_music_pipeline |              | validate_prepared       | success | 2026-10-08T21:37:05.090167+00:00 | 2026-10-08T21:37:10.299816+00:00
+reliable_music_pipeline |              | load_dw                 | success | 2026-10-08T21:37:11.317603+00:00 | 2026-10-08T21:37:22.911919+00:00
+

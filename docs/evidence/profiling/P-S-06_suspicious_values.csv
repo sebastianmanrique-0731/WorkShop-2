@@ -1,0 +1,16 @@
+,value
+"bounded_features_outside_[0,1]",0.0
+"popularity_outside_[0,100]",0.0
+"key_outside_[0,11]",0.0
+"mode_not_in_{0,1}",0.0
+popularity_equals_0,16020.0
+popularity_equals_0_pct,14.05
+tempo_equals_0,157.0
+time_signature_equals_0,163.0
+tempo0_and_time_signature0,157.0
+duration_ms_equals_0,1.0
+duration_under_30s,17.0
+duration_over_20min,81.0
+duration_max_minutes,87.3
+loudness_above_0_dB,90.0
+loudness_min_dB,-49.531

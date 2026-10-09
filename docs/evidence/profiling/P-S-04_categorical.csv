@@ -1,0 +1,11 @@
+,value
+distinct_genres,114
+rows_per_genre_min,1000
+rows_per_genre_max,1000
+explicit_true_pct,8.55
+key_values,"[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]"
+mode_values,"[0, 1]"
+time_signature_values,"[0, 1, 3, 4, 5]"
+artists_with_multiple_names_(';'),30075
+artists_multi_pct,26.38
+artists_with_leading/trailing_space,8

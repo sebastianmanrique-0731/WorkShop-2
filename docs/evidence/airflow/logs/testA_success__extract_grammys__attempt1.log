@@ -1,0 +1,6 @@
+# Airflow task log (readable) - run_id=testA_success task_id=extract_grammys attempt=1
+# source: airflow/logs/dag_id=reliable_music_pipeline/run_id=testA_success/task_id=extract_grammys/attempt=1.log
+
+2026-10-08T21:29:39.880  INFO    extract: [extract_grammys] batch=testA_success rows=4810 (db count=4810) from grammy_source.grammy_awards fault=None
+2026-10-08T21:29:39.881  INFO    airflow.task.operators.airflow.providers.standard.decorators.python._PythonDecoratedOperator: Done. Returned value was: {'source': 'grammy', 'batch_id': 'testA_success', 'staged_path': '/opt/airflow/data/staging/testA_success/grammy_raw.parquet', 'staged_sha256': 'f57af9000ae7ca0323a4f30dca167c72198f6fd2ec33ed4a349eb47e9f9a3ebb', 'rows': 4810, 'columns': ['grammy_row_id', 'year', 'title', 'published_at', 'updated_at', 'category', 'nominee', 'artist', 'workers', 'img', 'winner'], 'origin': 'postgres_table', 'origin_database': 'grammy_source', 'origin_table': 'grammy_awards', 'db_row_count': 4810, 'fault_injected': None, 'fault_rule': None}
+2026-10-08T21:29:39.881  INFO    task: Pushing xcom

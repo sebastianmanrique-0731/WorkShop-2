@@ -1,0 +1,22 @@
+{
+  "data": {
+    "asset": {
+      "id": "30758523-8595-4a5e-bc60-1ace95b0325f",
+      "name": "prepared_artist"
+    },
+    "batch_definition": {
+      "id": "69f6cb00-0e8a-4511-bcf3-0597ee6a2080",
+      "name": "whole_dataframe"
+    },
+    "datasource": {
+      "id": "466f73a7-a7e9-461b-86b6-38a097d209d5",
+      "name": "pandas_runtime"
+    }
+  },
+  "id": "2c5e9366-e328-4f7a-8d62-ece3138b4b66",
+  "name": "prepared_artist_validation",
+  "suite": {
+    "id": "b446af42-80fe-4672-9fac-c02341ee7123",
+    "name": "prepared_artist_suite"
+  }
+}

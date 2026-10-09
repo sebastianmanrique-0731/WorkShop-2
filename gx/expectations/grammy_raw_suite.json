@@ -1,0 +1,134 @@
+{
+  "expectations": [
+    {
+      "id": "7d372d7a-6a68-4b07-b8a1-3ac2c17ec216",
+      "kwargs": {
+        "column_set": [
+          "grammy_row_id",
+          "year",
+          "title",
+          "published_at",
+          "updated_at",
+          "category",
+          "nominee",
+          "artist",
+          "workers",
+          "img",
+          "winner"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "gx_id": "GX-201",
+        "rule_id": "DQ-06",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "56f2cca0-d3f4-4a92-9bec-7afd601a77be",
+      "kwargs": {
+        "max_value": 20000,
+        "min_value": 1000
+      },
+      "meta": {
+        "gx_id": "GX-202",
+        "rule_id": "DQ-06",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_table_row_count_to_be_between"
+    },
+    {
+      "id": "c133f519-d089-4c0b-beb0-cea13c14e29c",
+      "kwargs": {
+        "column": "grammy_row_id"
+      },
+      "meta": {
+        "gx_id": "GX-203",
+        "rule_id": "DQ-07",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "95e0e048-2ef8-419a-b946-7ae9e93e01f7",
+      "kwargs": {
+        "column": "grammy_row_id"
+      },
+      "meta": {
+        "gx_id": "GX-204",
+        "rule_id": "DQ-07",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "36abee8b-c9c2-4a78-bf7a-f03626ae6dc7",
+      "kwargs": {
+        "column": "year"
+      },
+      "meta": {
+        "gx_id": "GX-205",
+        "rule_id": "DQ-08",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "7e5fe0e2-adaa-461c-9154-02cb0b3004c5",
+      "kwargs": {
+        "column": "year",
+        "max_value": 2026.0,
+        "min_value": 1958.0
+      },
+      "meta": {
+        "gx_id": "GX-206",
+        "rule_id": "DQ-08",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "6ddfba7a-c7bd-4a2b-91d1-fdc16def1124",
+      "kwargs": {
+        "column": "artist",
+        "mostly": 0.5
+      },
+      "meta": {
+        "gx_id": "GX-207",
+        "rule_id": "DQ-09",
+        "severity": "warning"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "3cce3902-b277-4747-8106-f619362259ff",
+      "kwargs": {
+        "column": "winner",
+        "value_set": [
+          true
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-208",
+        "rule_id": "DQ-10",
+        "severity": "informational"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    }
+  ],
+  "id": "dfea9c58-7fc4-4c81-abea-b659d73a7397",
+  "meta": {
+    "great_expectations_version": "1.24.0"
+  },
+  "name": "grammy_raw_suite",
+  "notes": null
+}

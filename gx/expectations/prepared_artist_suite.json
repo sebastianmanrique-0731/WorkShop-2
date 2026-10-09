@@ -1,0 +1,164 @@
+{
+  "expectations": [
+    {
+      "id": "357a26aa-13d5-43f1-a341-485fb94a19ce",
+      "kwargs": {
+        "column_set": [
+          "artist_norm",
+          "artist_name",
+          "in_spotify",
+          "is_grammy_winner",
+          "grammy_win_count",
+          "first_grammy_year",
+          "spotify_winner",
+          "spotify_non_winner"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "gx_id": "GX-301",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "fd0f6713-b4dc-47f5-add6-28bf775e5c65",
+      "kwargs": {
+        "column": "artist_norm"
+      },
+      "meta": {
+        "gx_id": "GX-302",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "afd5f503-8316-4920-884b-a3edb3a4e4b8",
+      "kwargs": {
+        "column": "artist_norm"
+      },
+      "meta": {
+        "gx_id": "GX-303",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_unique"
+    },
+    {
+      "id": "7f8eba5b-808d-43d8-986a-a4c14cc6a67c",
+      "kwargs": {
+        "column": "artist_norm",
+        "value_set": [
+          "",
+          "(various artists)",
+          "various artists"
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-304",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_in_set"
+    },
+    {
+      "id": "e90d58e4-2e5d-49fc-80bc-f005314ae69b",
+      "kwargs": {
+        "column": "is_grammy_winner"
+      },
+      "meta": {
+        "gx_id": "GX-305",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "3e41cabc-69f6-4023-8286-d249ce7a1fa8",
+      "kwargs": {
+        "column": "grammy_win_count",
+        "min_value": 1.0,
+        "row_condition": {
+          "column": {
+            "name": "is_grammy_winner"
+          },
+          "operator": "==",
+          "parameter": true,
+          "type": "comparison"
+        }
+      },
+      "meta": {
+        "gx_id": "GX-306",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "ef838b2c-0f95-469c-8539-0c5c8c14a5a8",
+      "kwargs": {
+        "column": "grammy_win_count",
+        "row_condition": {
+          "column": {
+            "name": "is_grammy_winner"
+          },
+          "operator": "==",
+          "parameter": false,
+          "type": "comparison"
+        },
+        "value_set": [
+          0
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-307",
+        "rule_id": "DQ-13",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "d6990656-4702-40f0-a0b9-04055ef02ffd",
+      "kwargs": {
+        "column": "spotify_winner",
+        "min_value": 30.0
+      },
+      "meta": {
+        "gx_id": "GX-308",
+        "rule_id": "DQ-15",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_sum_to_be_between"
+    },
+    {
+      "id": "5787a3eb-fc3a-47e2-a8f9-5bdacd949a41",
+      "kwargs": {
+        "column": "spotify_non_winner",
+        "min_value": 30.0
+      },
+      "meta": {
+        "gx_id": "GX-309",
+        "rule_id": "DQ-15",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_sum_to_be_between"
+    }
+  ],
+  "id": "b446af42-80fe-4672-9fac-c02341ee7123",
+  "meta": {
+    "great_expectations_version": "1.24.0"
+  },
+  "name": "prepared_artist_suite",
+  "notes": null
+}

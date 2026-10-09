@@ -1,0 +1,12 @@
+,value
+rows,114000
+distinct_track_id,89741
+rows_with_repeated_track_id (beyond first),24259
+track_ids_that_repeat,16641
+max_genres_for_one_track_id,9
+exact_duplicate_rows (track_id+track_genre),450
+exact_duplicate_rows (all columns except csv_index),450
+repeated_ids_with_different_popularity,720
+repeated_ids_with_different_artists,0
+rows_repeating (artists+track_name) beyond first,32656
+csv_index_is_unique_sequence,True

@@ -1,0 +1,242 @@
+{
+  "expectations": [
+    {
+      "id": "c969a5ba-38c9-4531-8ff7-01b0ebb106e7",
+      "kwargs": {
+        "column_set": [
+          "track_id",
+          "artist_norm",
+          "artist_position",
+          "is_primary_artist",
+          "popularity",
+          "is_high_popularity",
+          "danceability",
+          "energy",
+          "valence",
+          "loudness_db",
+          "tempo_bpm",
+          "duration_ms"
+        ],
+        "exact_match": false
+      },
+      "meta": {
+        "gx_id": "GX-401",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_table_columns_to_match_set"
+    },
+    {
+      "id": "fe41c98b-7218-44fe-9cc8-598ff166a786",
+      "kwargs": {
+        "column_list": [
+          "track_id",
+          "artist_norm"
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-402",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_compound_columns_to_be_unique"
+    },
+    {
+      "id": "7b6a04d2-b5a0-4489-91cc-a3c8f95d3844",
+      "kwargs": {
+        "column": "track_id"
+      },
+      "meta": {
+        "gx_id": "GX-403",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "c3770311-29bc-4e36-a9f9-ea441defa7e6",
+      "kwargs": {
+        "column": "artist_norm"
+      },
+      "meta": {
+        "gx_id": "GX-404",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "1d872a9b-c83d-4040-b273-4dab99630156",
+      "kwargs": {
+        "column": "artist_position",
+        "min_value": 1.0
+      },
+      "meta": {
+        "gx_id": "GX-405",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "367153af-e3cc-4b76-bce1-dd93190a0b6b",
+      "kwargs": {
+        "column": "artist_position",
+        "row_condition": {
+          "column": {
+            "name": "is_primary_artist"
+          },
+          "operator": "==",
+          "parameter": true,
+          "type": "comparison"
+        },
+        "value_set": [
+          1
+        ]
+      },
+      "meta": {
+        "gx_id": "GX-406",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_in_set"
+    },
+    {
+      "id": "75ba2a1a-434a-4d6f-bf9c-f5f5bcaeb03a",
+      "kwargs": {
+        "column": "artist_position",
+        "min_value": 2.0,
+        "row_condition": {
+          "column": {
+            "name": "is_primary_artist"
+          },
+          "operator": "==",
+          "parameter": false,
+          "type": "comparison"
+        }
+      },
+      "meta": {
+        "gx_id": "GX-407",
+        "rule_id": "DQ-11",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "1ef156ac-c86c-4084-96e4-699be7d4e315",
+      "kwargs": {
+        "column": "popularity"
+      },
+      "meta": {
+        "gx_id": "GX-408",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_not_be_null"
+    },
+    {
+      "id": "f1bd2a8d-19fb-4ab1-8e36-60f34382d648",
+      "kwargs": {
+        "column": "popularity",
+        "max_value": 100.0,
+        "min_value": 0.0
+      },
+      "meta": {
+        "gx_id": "GX-409",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "7e9777a4-e78a-447d-b058-3f8a7783d4de",
+      "kwargs": {
+        "column": "danceability",
+        "max_value": 1.0,
+        "min_value": 0.0
+      },
+      "meta": {
+        "gx_id": "GX-410",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "91c14f2b-dc57-4e50-aa9a-cd4974969493",
+      "kwargs": {
+        "column": "energy",
+        "max_value": 1.0,
+        "min_value": 0.0
+      },
+      "meta": {
+        "gx_id": "GX-411",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "81d938ef-96af-4a5e-96ab-7e36aab1cceb",
+      "kwargs": {
+        "column": "valence",
+        "max_value": 1.0,
+        "min_value": 0.0
+      },
+      "meta": {
+        "gx_id": "GX-412",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "48d6e97c-c5bd-4561-82c2-1d5de73ef936",
+      "kwargs": {
+        "column": "tempo_bpm",
+        "min_value": 0.0,
+        "strict_min": true
+      },
+      "meta": {
+        "gx_id": "GX-413",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    },
+    {
+      "id": "c6799d63-ea46-4c00-8a16-dfedc69523aa",
+      "kwargs": {
+        "column": "duration_ms",
+        "min_value": 0.0,
+        "strict_min": true
+      },
+      "meta": {
+        "gx_id": "GX-414",
+        "rule_id": "DQ-12",
+        "severity": "critical"
+      },
+      "severity": "critical",
+      "type": "expect_column_values_to_be_between"
+    }
+  ],
+  "id": "0c665892-c608-4e2a-8589-a57d0d8c6b10",
+  "meta": {
+    "great_expectations_version": "1.24.0"
+  },
+  "name": "prepared_track_artist_suite",
+  "notes": null
+}
