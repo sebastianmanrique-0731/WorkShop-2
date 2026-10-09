@@ -10,7 +10,7 @@
 A batch pipeline, orchestrated by Apache Airflow 3.1.8, that extracts Spotify data from a CSV and Grammy data from PostgreSQL, validates both with Great Expectations, transforms and integrates them, validates the result again and loads a star schema in PostgreSQL. Every claim below links to evidence in [`docs/evidence/`](docs/evidence/).
 
 > [!NOTE]
-> **Status.** Workshop §6.1–§6.11 and §7 are implemented and were executed in Docker: successful run, three controlled failures, safe rerun and a transient-failure retry. The KPI queries run on the DW. **The Power BI dashboard is still pending (§8).**
+> **Status.** Workshop Sec. 6.1–6.11 and Sec. 7 are implemented and were executed in Docker: successful run, three controlled failures, safe rerun and a transient-failure retry. The KPI queries run on the DW. **The Power BI dashboard is still pending (Sec. 8).**
 
 ---
 
@@ -51,7 +51,7 @@ Relate Grammy recognition to Spotify popularity, genre and sound. Neither source
 | Spotify | `data/raw/spotify_dataset.csv` | the CSV file | 114,000 × 21 |
 | Grammy Awards | `data/raw/the_grammy_awards.csv` | PostgreSQL table `grammy_source.grammy_awards` | 4,810 × 10 (+ `grammy_row_id`) |
 
-**Source preparation (§6.2).** `src/prepare_source.py` (job `prepare-source`) loads the Grammy CSV **as delivered** into `grammy_awards` ([`sql/source_setup.sql`](sql/source_setup.sql)) in one transaction (drop + create + `COPY`) and reconciles CSV vs table on 15 checks: rows, year range, distinct categories, winners and empty values per column. All match: [`source_prep_reconciliation.json`](docs/evidence/source_prep_reconciliation.json). This is not the ETL Load. It only creates the operational source. The same job creates the empty `music_dw` database if it is missing.
+**Source preparation (Sec. 6.2).** `src/prepare_source.py` (job `prepare-source`) loads the Grammy CSV **as delivered** into `grammy_awards` ([`sql/source_setup.sql`](sql/source_setup.sql)) in one transaction (drop + create + `COPY`) and reconciles CSV vs table on 15 checks: rows, year range, distinct categories, winners and empty values per column. All match: [`source_prep_reconciliation.json`](docs/evidence/source_prep_reconciliation.json). This is not the ETL Load. It only creates the operational source. The same job creates the empty `music_dw` database if it is missing.
 
 | Decision | Reason |
 |---|---|
@@ -116,7 +116,7 @@ Notebook: [`notebooks/data_profiling.ipynb`](notebooks/data_profiling.ipynb) (re
 | RISK-13 | Grammy `(Various Artists)` | 66 rows (P-G-05) | Placeholder counted as an artist | Validity | AR-01, AR-02 |
 | RISK-14 | Grammy `nominee` | song, album or person. A track-name match gives up to 9 Spotify versions (P-X-05); an album-name match gives every track of the album (up to 110) | One-to-many fan-out | Consistency | AR-03 |
 
-The 9.2% in RISK-07 is the crude exploratory match of the notebook. The final integration contract (§8) reaches 544 of 4,257 matchable rows (**12.8%**).
+The 9.2% in RISK-07 is the crude exploratory match of the notebook. The final integration contract (Sec. 8) reaches 544 of 4,257 matchable rows (**12.8%**).
 
 ---
 
@@ -146,7 +146,7 @@ The 9.2% in RISK-07 is the crude exploratory match of the notebook. The final in
 | DQ-16 | Prepared | is_track_matched among is_matchable | Consistency (integration integrity) | The track-level integration did not collapse: a minimum share of matchable Grammy rows matched a Spotify track. | matched / matchable >= 1% (observed 12.8%) | Critical | AR-03 | RISK-06, RISK-07 |
 | DQ-17 | Prepared | matched_track_count | Consistency (cardinality) | Only a small share of award entries fan out to many Spotify tracks. A few long albums or box sets are expected; a widespread fan-out is not. | matched_track_count <= 15 for >= 99% of rows (baseline: 4 of 4,810 = 0.08%) | Warning | AR-03 | RISK-14 |
 
-The table follows the columns of Workshop §6.5. It is the executable registry `RULES` rendered as text: the suites, the GX project and the Expectation → Rule map are generated from the same registry.
+The table follows the columns of Workshop Sec. 6.5. It is the executable registry `RULES` rendered as text: the suites, the GX project and the Expectation → Rule map are generated from the same registry.
 
 **Why these thresholds** (decided from the domain and the requirement, not from what the current batch passes):
 
@@ -266,11 +266,11 @@ Star constellation in PostgreSQL, [`sql/dw_schema.sql`](sql/dw_schema.sql). Two 
 <img src="docs/evidence/airflow/graph__dag_structure.png" alt="Airflow Graph view of reliable_music_pipeline: two source branches converge in transform_and_integrate, then validate_prepared and load_dw; all tasks success" width="820">
 </div>
 
-*Claim:* the DAG that Airflow executes has the architecture of §4. *Reading:* the two source branches (`extract_* → validate_*_raw`) are independent and both feed `transform_and_integrate`, so it cannot start until both raw gates succeed. `validate_prepared` is its only successor and `load_dw` has a single upstream, `validate_prepared`. In this run all seven tasks are `success`.
+*Claim:* the DAG that Airflow executes has the architecture of Sec. 4. *Reading:* the two source branches (`extract_* → validate_*_raw`) are independent and both feed `transform_and_integrate`, so it cannot start until both raw gates succeed. `validate_prepared` is its only successor and `load_dw` has a single upstream, `validate_prepared`. In this run all seven tasks are `success`.
 
 **Logging.** Each task logs the batch id (the sanitized `run_id`), the material row counts, the gate outcome (`PASSED: 5/5`, `WARNING rule DQ-05`, `FAILED on critical rule(s) ['DQ-08']` with the path of the evidence), the reconciliation and the load summary. Staged files and their `*.meta.json` stay in `data/staging/<batch_id>/` so a batch can be investigated.
 
-**Observability (§6.11): six questions, six pieces of evidence.**
+**Observability (Sec. 6.11): six questions, six pieces of evidence.**
 
 | Question | Evidence | Where |
 |---|---|---|
@@ -279,9 +279,9 @@ Star constellation in PostgreSQL, [`sql/dw_schema.sql`](sql/dw_schema.sql). Two 
 | Did it succeed? | DAG and task states, plus completion evidence: row counts, gate summary, load summary | [`task_states.txt`](docs/evidence/airflow/task_states.txt), [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
 | Where did it fail? | The failed task and the `upstream_failed` downstream tasks | [grid `testB_grammy_DQ-08`](docs/evidence/airflow/grid__testB_grammy_DQ-08.png), [`task_states.txt`](docs/evidence/airflow/task_states.txt) |
 | Why? | Log line with the rule id and the path of the GX report; the report lists the observed values | [failed log](docs/evidence/airflow/logs/testB_grammy_DQ-08__validate_grammys_raw__attempt1.log), [`raw_grammy__testB_grammy_DQ-08.json`](docs/evidence/validation/raw_grammy__testB_grammy_DQ-08.json) |
-| What happened next? | Retry (attempt 2 succeeds), stop (`upstream_failed`), or warning continuation, according to §11 | [attempt 1](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log) and [2](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log), [`prepared__testA_success.json`](docs/evidence/validation/prepared__testA_success.json) |
+| What happened next? | Retry (attempt 2 succeeds), stop (`upstream_failed`), or warning continuation, according to Sec. 11 | [attempt 1](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log) and [2](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log), [`prepared__testA_success.json`](docs/evidence/validation/prepared__testA_success.json) |
 
-**Load strategy (§6.10)** in [`src/load.py`](src/load.py). Everything runs in **one transaction**:
+**Load strategy (Sec. 6.10)** in [`src/load.py`](src/load.py). Everything runs in **one transaction**:
 
 1. `pg_advisory_xact_lock`, so two loads never interleave.
 2. Apply the idempotent schema.
@@ -331,7 +331,7 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 |---|---|---|
 | Extract both sources | 114,000 Spotify rows from CSV; 4,810 Grammy rows from PostgreSQL (`db count=4810`) | [log](docs/evidence/airflow/logs/testA_success__extract_grammys__attempt1.log) |
 | Raw gates | Spotify 5/5, Grammy 5/5 | [`raw_spotify__testA_success.json`](docs/evidence/validation/raw_spotify__testA_success.json), [`raw_grammy__testA_success.json`](docs/evidence/validation/raw_grammy__testA_success.json) |
-| Transform and integrate | reconciliation of §8 | [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json) |
+| Transform and integrate | reconciliation of Sec. 8 | [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json) |
 | Prepared gate | 7/7 rules ok with the current DQ-17 (≥ 99% of rows), no Critical, no Warning. *The attached task log was captured earlier with the first DQ-17 (cap of 15 per row), which gave 6/7 with Warning DQ-17 and the run continued under policy.* | [`prepared__testA_success.json`](docs/evidence/validation/prepared__testA_success.json), [log](docs/evidence/airflow/logs/testA_success__validate_prepared__attempt1.log) |
 | Load | `dim_artist` 30,910 · `dim_track` 89,740 · `dim_genre` 114 · `dim_category` 629 · `dim_year` 62 · `fact_track_artist` 123,423 · `fact_grammy_award` 4,810 · `bridge_artist_genre` 44,364 · `bridge_award_track` 1,519; reconciled | [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
 | Analytics | KPI queries read the DW | [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt) |
@@ -396,7 +396,7 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 
 ## 🔁 14. Repeatability and safe rerun
 
-**Strategy:** business-key enforcement for dimensions plus transactional replace of facts (§10). Run `testA_rerun_same_batch` loaded the same input again ([`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json)):
+**Strategy:** business-key enforcement for dimensions plus transactional replace of facts (Sec. 10). Run `testA_rerun_same_batch` loaded the same input again ([`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json)):
 
 | | Before rerun | After rerun |
 |---|---|---|
@@ -421,21 +421,21 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 
 | ID | Run / task | Artifact | What it proves | Policy / rule |
 |---|---|---|---|---|
-| E-01 | `prepare-source` | [`source_prep_reconciliation.json`](docs/evidence/source_prep_reconciliation.json) | Grammy CSV = source table (15 checks) | §6.2 |
-| E-02 | environment | [`airflow_version.txt`](docs/evidence/airflow/airflow_version.txt) | Airflow reports 3.1.8 | §6.2 |
+| E-01 | `prepare-source` | [`source_prep_reconciliation.json`](docs/evidence/source_prep_reconciliation.json) | Grammy CSV = source table (15 checks) | Sec. 6.2 |
+| E-02 | environment | [`airflow_version.txt`](docs/evidence/airflow/airflow_version.txt) | Airflow reports 3.1.8 | Sec. 6.2 |
 | E-03 | profiling notebook | [`profiling/`](docs/evidence/profiling/) | 14 risks backed by tables and figures | RISK-01…14 |
-| E-04 | GX design | [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv) | 58 expectations → rule, suite, validation definition, checkpoint | §6.6 |
+| E-04 | GX design | [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv) | 58 expectations → rule, suite, validation definition, checkpoint | Sec. 6.6 |
 | E-05 | `testA_success` | grid, logs, `raw_*`, `prepared__`, `reconciliation__`, `load__` | Test A | DQ-01…17 |
 | E-06 | `testB_grammy_DQ-08` | grid and log screenshots, failed log, GX JSON | raw Critical failure blocks downstream | DQ-08 |
 | E-07 | `testB_spotify_DQ-03` | grid and log screenshots, failed log, GX JSON | same, other branch; branches independent | DQ-03 |
 | E-08 | `testB_prepared_DQ-12` | grid and log screenshots, failed log, GX JSON | `load_dw` is gated by the prepared gate | DQ-12 |
-| E-09 | `testA_rerun_same_batch` | [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json) | Rerun leaves counts, measures and keys unchanged | §7.3 |
-| E-10 | `retry_transient_db_outage` | grid, attempt 1 and 2 logs | Retries apply to transient errors only | §6.11 |
-| E-11 | all runs | [`dag_runs.txt`](docs/evidence/airflow/dag_runs.txt), [`task_states.txt`](docs/evidence/airflow/task_states.txt) | What ran, when, and with what state | §6.11 |
-| E-12 | DW | [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt) | KPIs computed from the DW | §8.1 |
+| E-09 | `testA_rerun_same_batch` | [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json) | Rerun leaves counts, measures and keys unchanged | Sec. 7.3 |
+| E-10 | `retry_transient_db_outage` | grid, attempt 1 and 2 logs | Retries apply to transient errors only | Sec. 6.11 |
+| E-11 | all runs | [`dag_runs.txt`](docs/evidence/airflow/dag_runs.txt), [`task_states.txt`](docs/evidence/airflow/task_states.txt) | What ran, when, and with what state | Sec. 6.11 |
+| E-12 | DW | [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt) | KPIs computed from the DW | Sec. 8.1 |
 | E-13 | `pytest` | [`pytest_summary.txt`](docs/evidence/tests/pytest_summary.txt) | 67 passed: every rule fails when violated; extraction, transformation, prepared gate, load, rerun, rollback | all |
-| E-14 | DW | [`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv) | Sensitivity of KPI-01 to `popularity = 0`; expected output of `KPI-01b` | §8.1, RISK-09 |
-| E-15 | `testA_success` | [`graph__dag_structure.png`](docs/evidence/airflow/graph__dag_structure.png) | The implemented DAG has two source branches, one convergence, the prepared gate and the load | §5, §6.11 |
+| E-14 | DW | [`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv) | Sensitivity of KPI-01 to `popularity = 0`; expected output of `KPI-01b` | Sec. 8.1, RISK-09 |
+| E-15 | `testA_success` | [`graph__dag_structure.png`](docs/evidence/airflow/graph__dag_structure.png) | The implemented DAG has two source branches, one convergence, the prepared gate and the load | Sec. 5, Sec. 6.11 |
 
 ---
 
@@ -445,7 +445,7 @@ Run `testA_success` (`fault_injection = none`): all 7 tasks `success` ([grid](do
 
 Every output below reads only `music_dw` (never a CSV). All queries are in [`sql/queries/kpi_queries.sql`](sql/queries/kpi_queries.sql); their results on the loaded DW are in [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt).
 
-### 16.1 Requirement → DW element → KPI / visualization (Workshop §8.1)
+### 16.1 Requirement → DW element → KPI / visualization (Workshop Sec. 8.1)
 
 6 KPIs and 3 analytical visualizations, plus one coverage indicator that travels with every visual.
 
@@ -477,7 +477,7 @@ The negative gap is explained mostly by exact zeros, which RISK-09 flagged and T
 | Grammy winner | 888 | 31.63 | **42.57** | 25.7% |
 | No Grammy win | 28,879 | 33.61 | 37.12 | 9.5% |
 
-Gap excluding zeros: **+5.45**. The first row of each pair reproduces `KPI-01` exactly (31.63 / 33.61 / 888 / 28,879), which is how the replication was validated. These figures were computed by replicating the `fact_track_artist` JOIN `dim_artist` grain from the prepared datasets ([`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv)); **`KPI-01b` run on `music_dw` returns the same values** (second table of [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt)). The result stays an association: a zero may be a real zero or a missing measurement, and the data cannot tell which (README §19).
+Gap excluding zeros: **+5.45**. The first row of each pair reproduces `KPI-01` exactly (31.63 / 33.61 / 888 / 28,879), which is how the replication was validated. These figures were computed by replicating the `fact_track_artist` JOIN `dim_artist` grain from the prepared datasets ([`kpi01b_expected_from_prepared_data.csv`](docs/evidence/analytics/kpi01b_expected_from_prepared_data.csv)); **`KPI-01b` run on `music_dw` returns the same values** (second table of [`kpi_results.txt`](docs/evidence/analytics/kpi_results.txt)). The result stays an association: a zero may be a real zero or a missing measurement, and the data cannot tell which (README Sec. 19).
 
 ### 16.4 Dashboard connection and pages
 
@@ -499,44 +499,44 @@ Power BI Desktop → Get data → PostgreSQL, server `localhost:5433`, database 
 
 ## 🧭 17. End-to-end traceability and evidence set
 
-### 17.1 Traceability matrix (Workshop §8.2)
+### 17.1 Traceability matrix (Workshop Sec. 8.2)
 
-One row per **chain** that matters, not per requirement: each row follows one risk from the requirement it threatens to the KPI that would be wrong without the control. IDs are the ones used in the code, the tests and the evidence files (`RISK` → [`RISKS_register.csv`](docs/evidence/profiling/RISKS_register.csv), `DQ`/`GX` → [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv), `TR` → §8, `KPI`/`V` → §16).
+One row per **chain** that matters, not per requirement: each row follows one risk from the requirement it threatens to the KPI that would be wrong without the control. IDs are the ones used in the code, the tests and the evidence files (`RISK` → [`RISKS_register.csv`](docs/evidence/profiling/RISKS_register.csv), `DQ`/`GX` → [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv), `TR` → Sec. 8, `KPI`/`V` → Sec. 16).
 
 | # | Requirement | Required data | Quality risk | DQ rule | GX expectation | Transformation | DW element | KPI / visualization |
 |---|---|---|---|---|---|---|---|---|
 | 1 | AR-01 | Spotify `popularity` | RISK-09 (14.1% of rows are exactly 0); RISK-04 (720 ids with different popularity per genre) | DQ-03 (domain 0–100), DQ-12 (domain after transform) | GX-105; GX-408, GX-409 | TR-S03 (mean over genre listings), TR-S06 (zeros kept, not invented) | `fact_track_artist.popularity` | KPI-01, **KPI-01b**, KPI-02 · V-01 |
 | 2 | AR-01, AR-02 | Spotify `artists` (several per row) | RISK-05 (26.4% of rows hold several artists), RISK-10 (1 row without artist) | DQ-04 (artists present), DQ-11 (one row per track × artist) | GX-115; GX-402, GX-405–407 | TR-S01, TR-S08 (split on `;`, position, primary flag) | `fact_track_artist` (grain), `dim_artist` | KPI-01, KPI-02 · V-01 |
-| 3 | AR-01, AR-02, AR-03 | Spotify `artists` + Grammy `artist` (no shared id) | RISK-06 (names only), RISK-07 (33.1% of Grammy artists exist in Spotify), RISK-13 (`(Various Artists)` placeholder) | DQ-13 (one row per `artist_norm`, no placeholder), DQ-15 (both comparison groups ≥ 30), DQ-16 (match did not collapse) | GX-302–304; GX-308, GX-309; GX-507 | Integration contract (§8): `norm_key`, exact / split / unmatched; TR-G06 | `dim_artist` (`in_spotify`, `is_grammy_winner`, `grammy_win_count`) | KPI-01, KPI-04, **KPI-06** (card on every page) |
+| 3 | AR-01, AR-02, AR-03 | Spotify `artists` + Grammy `artist` (no shared id) | RISK-06 (names only), RISK-07 (33.1% of Grammy artists exist in Spotify), RISK-13 (`(Various Artists)` placeholder) | DQ-13 (one row per `artist_norm`, no placeholder), DQ-15 (both comparison groups ≥ 30), DQ-16 (match did not collapse) | GX-302–304; GX-308, GX-309; GX-507 | Integration contract (Sec. 8): `norm_key`, exact / split / unmatched; TR-G06 | `dim_artist` (`in_spotify`, `is_grammy_winner`, `grammy_win_count`) | KPI-01, KPI-04, **KPI-06** (card on every page) |
 | 4 | AR-02 | Spotify `track_genre` | RISK-04 (24,259 rows repeat a track across genres; 450 exact duplicates) | DQ-02 (valid `track_id`), DQ-04 (genre never null) | GX-103, GX-104; GX-116 | TR-S02 (remove exact duplicates), `prepared_track_genre` | `bridge_artist_genre`, `dim_genre` | KPI-03, KPI-04 · V-02 |
 | 5 | AR-02, AR-03 | Grammy `artist` | RISK-02 (38.25% missing; all *Song Of The Year* rows) | DQ-09 (≥ 50% present, Warning) | GX-207 | TR-G04 (Best New Artist: nominee is the artist), TR-G05 (performer in `workers`), flagged in `artist_source` | `fact_grammy_award.artist_key` (0 = unknown member), `dim_artist.grammy_win_count` | KPI-03, KPI-06 |
 | 6 | AR-02, AR-03 | Grammy `year` | RISK-12 (`year` is an award label; `published_at` is a web date) | DQ-08 (1958 ≤ year ≤ current), DQ-14 (valid year, no row lost) | GX-205, GX-206; GX-503 | TR-G03 (+ decade derived in `prepared_year`; `published_at` never used) | `dim_year` (`decade`) | KPI-03 by decade, KPI-05 · V-03 |
 | 7 | AR-03 | Spotify audio features, `tempo`, `duration_ms` | RISK-08 (157 `tempo = 0`, 1 `duration_ms = 0`, 90 `loudness > 0`) | DQ-05 (Warning, ≥ 99%), DQ-12 (zeros must be NULL after transform) | GX-117, GX-118, GX-119; GX-413, GX-414 | TR-S05 (placeholder zeros → NULL) | `fact_track_artist.tempo_bpm`, `.duration_ms` | KPI-05 · V-03 |
-| 8 | AR-03 | Grammy `nominee` ↔ Spotify `track_name` / `album_name` | RISK-14 (nominee is a song, an album or a person), RISK-06 | DQ-16 (match rate ≥ 1%), DQ-17 (≤ 1% of entries above 15 tracks, Warning) | GX-507; GX-508 | Track-level match contract (§8): name match, then album match, stored once per pair | `bridge_award_track`, `fact_grammy_award.matched_track_count` | KPI-05, **KPI-06** · V-03 |
+| 8 | AR-03 | Grammy `nominee` ↔ Spotify `track_name` / `album_name` | RISK-14 (nominee is a song, an album or a person), RISK-06 | DQ-16 (match rate ≥ 1%), DQ-17 (≤ 1% of entries above 15 tracks, Warning) | GX-507; GX-508 | Track-level match contract (Sec. 8): name match, then album match, stored once per pair | `bridge_award_track`, `fact_grammy_award.matched_track_count` | KPI-05, **KPI-06** · V-03 |
 | 9 | AR-02, AR-03 | Grammy rows (4,810) | Silent row loss would inflate the match rate (RISK-02, RISK-11) | DQ-14 (prepared rows = raw rows, unique key) | GX-501, GX-502, GX-504, GX-505, GX-506 | TR-G01, TR-G02 (case variants collapse into one `category_key`); unmatched rows kept | `fact_grammy_award` (4,810), `dim_category` (629) | KPI-06 denominator |
 
 **How to read a row** (row 3 as an example): AR-01 compares winners with non-winners, which needs both sources; they share no id (RISK-06), so DQ-13 and DQ-16 protect the integration key, TR-G06 and the integration contract build it, `dim_artist` stores the result, and KPI-01 / KPI-06 expose both the answer and its coverage.
 
 **Coverage check.** Every one of the 17 rules appears in the matrix, except DQ-01, DQ-06, DQ-07 and DQ-10, which protect the structure of the extract (columns, volume, primary key, source scope) and therefore support all requirements equally rather than one chain.
 
-### 17.2 Minimum evidence set (Workshop §8.3)
+### 17.2 Minimum evidence set (Workshop Sec. 8.3)
 
 | Status | Required evidence | Where it is |
 |---|---|---|
-| **Done** | Analytical-requirement table and solution scope | §1 (scope), §2 (AR-01…03) |
-| **Done** | Conceptual architecture and implemented DAG structure | §4, §10, [`dags/reliable_music_pipeline.py`](dags/reliable_music_pipeline.py), [grid](docs/evidence/airflow/grid__testA_success.png) |
-| **Done** | Profiling notebook and evidence for both sources | [`notebooks/data_profiling.ipynb`](notebooks/data_profiling.ipynb), [`docs/evidence/profiling/`](docs/evidence/profiling/) (`P-S-*`, `P-G-*`, `P-X-*`), §5 |
-| **Done** | Quality-risk analysis and quality-rule table | §5, §6, [`RISKS_register.csv`](docs/evidence/profiling/RISKS_register.csv) |
-| **Done** | GX design and validation outputs for raw and prepared layers | §7, [`gx/`](gx/), [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv), [`docs/evidence/validation/`](docs/evidence/validation/) (`raw_*`, `prepared__*`) |
-| **Done** | Transformation and integration decision record | §8, [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json) |
-| **Done** | Dimensional model and executable schema definition | §9, [`sql/dw_schema.sql`](sql/dw_schema.sql) |
-| **Done** | Successful DAG Run evidence | §12, [grid](docs/evidence/airflow/grid__testA_success.png), [`task_states.txt`](docs/evidence/airflow/task_states.txt), [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
-| **Done** | Controlled failed DAG Run evidence, including failed task logs | §13, grids `testB_grammy_DQ-08`, `testB_spotify_DQ-03`, `testB_prepared_DQ-12` and their logs in [`docs/evidence/airflow/logs/`](docs/evidence/airflow/logs/) |
-| **Done** | Selective-retry evidence or a justified explanation of tasks without retry | §11, E-10: [attempt 1](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log) and [attempt 2](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log) |
-| **Done** | Safe-rerun evidence | §14, [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json), [grid](docs/evidence/airflow/grid__testA_rerun_same_batch.png) |
-| **Pending** | Dashboard connection to the DW and requirement-to-KPI traceability | Traceability: §16.1 and §17.1 (done). **Power BI dashboard connected to `music_dw`: pending** |
+| **Done** | Analytical-requirement table and solution scope | Sec. 1 (scope), Sec. 2 (AR-01…03) |
+| **Done** | Conceptual architecture and implemented DAG structure | Sec. 4, Sec. 10, [`dags/reliable_music_pipeline.py`](dags/reliable_music_pipeline.py), [grid](docs/evidence/airflow/grid__testA_success.png) |
+| **Done** | Profiling notebook and evidence for both sources | [`notebooks/data_profiling.ipynb`](notebooks/data_profiling.ipynb), [`docs/evidence/profiling/`](docs/evidence/profiling/) (`P-S-*`, `P-G-*`, `P-X-*`), Sec. 5 |
+| **Done** | Quality-risk analysis and quality-rule table | Sec. 5, Sec. 6, [`RISKS_register.csv`](docs/evidence/profiling/RISKS_register.csv) |
+| **Done** | GX design and validation outputs for raw and prepared layers | Sec. 7, [`gx/`](gx/), [`gx_expectation_map.csv`](docs/evidence/validation/gx_expectation_map.csv), [`docs/evidence/validation/`](docs/evidence/validation/) (`raw_*`, `prepared__*`) |
+| **Done** | Transformation and integration decision record | Sec. 8, [`reconciliation__testA_success.json`](docs/evidence/transformation/reconciliation__testA_success.json) |
+| **Done** | Dimensional model and executable schema definition | Sec. 9, [`sql/dw_schema.sql`](sql/dw_schema.sql) |
+| **Done** | Successful DAG Run evidence | Sec. 12, [grid](docs/evidence/airflow/grid__testA_success.png), [`task_states.txt`](docs/evidence/airflow/task_states.txt), [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
+| **Done** | Controlled failed DAG Run evidence, including failed task logs | Sec. 13, grids `testB_grammy_DQ-08`, `testB_spotify_DQ-03`, `testB_prepared_DQ-12` and their logs in [`docs/evidence/airflow/logs/`](docs/evidence/airflow/logs/) |
+| **Done** | Selective-retry evidence or a justified explanation of tasks without retry | Sec. 11, E-10: [attempt 1](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log) and [attempt 2](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log) |
+| **Done** | Safe-rerun evidence | Sec. 14, [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json), [grid](docs/evidence/airflow/grid__testA_rerun_same_batch.png) |
+| **Pending** | Dashboard connection to the DW and requirement-to-KPI traceability | Traceability: Sec. 16.1 and Sec. 17.1 (done). **Power BI dashboard connected to `music_dw`: pending** |
 
-The reliability evidence register of §15 lists the same artifacts by run (E-01…E-15).
+The reliability evidence register of Sec. 15 lists the same artifacts by run (E-01…E-15).
 
 ---
 
@@ -607,7 +607,7 @@ $env:DATA_DB_HOST = "localhost"; $env:DATA_DB_PORT = "5433"
 Remove-Item Env:SPOTIFY_CSV_PATH, Env:GRAMMY_CSV_PATH     # these are container paths
 ```
 
-### 18.5 Profiling notebook and tests (stack up, §18.4 done)
+### 18.5 Profiling notebook and tests (stack up, Sec. 18.4 done)
 
 ```powershell
 jupyter lab                                                                          # open notebooks/data_profiling.ipynb
@@ -670,7 +670,7 @@ docker compose exec airflow-apiserver airflow dags list      # reliable_music_pi
 docker compose exec airflow-apiserver airflow dags unpause reliable_music_pipeline   # only if it is paused
 ```
 
-`docker compose down -v` also **deletes both databases**; after it, repeat §18.3 step 4. If `.env` changes, run `docker compose up -d` again so the containers pick it up.
+`docker compose down -v` also **deletes both databases**; after it, repeat Sec. 18.3 step 4. If `.env` changes, run `docker compose up -d` again so the containers pick it up.
 
 ### 18.9 Troubleshooting
 
@@ -679,7 +679,7 @@ docker compose exec airflow-apiserver airflow dags unpause reliable_music_pipeli
 | `Bind for 127.0.0.1:5433 failed: port is already allocated` (or 8080) | Another Compose project (another copy of this folder) is still running. `docker ps` shows which one; stop it with `docker compose down` from its folder. |
 | `DagNotFound: Dag id ... not found in DagModel` | Airflow has not registered the DAG yet (just started, or after `airflow dags delete`). Wait a minute, check `airflow dags list`, then `unpause`. If it never appears: `airflow dags list-import-errors`. |
 | A run id is rejected as duplicate | Run ids are unique. Delete the old run in the DAG's *Runs* tab or add a suffix (`_v2`). |
-| Notebook says `CSV fallback` | The venv variables of §18.4 were not loaded in that terminal. |
+| Notebook says `CSV fallback` | The venv variables of Sec. 18.4 were not loaded in that terminal. |
 
 ---
 
@@ -706,7 +706,7 @@ workshop-2/
 ├── tests/                              # test_quality_rules, test_extract, test_transform, test_load
 ├── notebooks/data_profiling.ipynb
 ├── sql/                                # source_setup.sql, dw_schema.sql, queries/kpi_queries.sql
-├── docs/evidence/                      # only the evidence the workshop asks for (see §15)
+├── docs/evidence/                      # only the evidence the workshop asks for (see Sec. 15)
 ├── data/raw/                           # preserved original CSVs + checksums
 ├── Dockerfile, docker-compose.yaml, requirements*.txt, .env.example, .gitignore
 └── README.md
