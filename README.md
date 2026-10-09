@@ -69,7 +69,7 @@ Proof that the pipeline reads Grammy from the database and not from the CSV: the
 ## 🏗️ 4. Pipeline architecture
 
 <div align="center">
-<img src="images/etl_architecture.svg" alt="ETL architecture: two source branches, two raw validation gates, transform and integrate, prepared validation gate, load to the Data Warehouse, KPIs and dashboard" width="1000">
+<img src="images/etl_architecture_v2.svg" alt="ETL architecture: two source branches, two raw validation gates, transform and integrate, prepared validation gate, load to the Data Warehouse, KPIs and dashboard" width="1000">
 </div>
 
 The pipeline is a **batch ETL** (transform before load) orchestrated by a single Airflow DAG, [`dags/reliable_music_pipeline.py`](dags/reliable_music_pipeline.py), written with the TaskFlow API (`from airflow.sdk import dag, task`). The two sources are extracted and validated **independently and in parallel**, converge in one transformation step, pass a second validation gate, and only then are loaded into the star schema. The logic of each task lives in `src/` (`extract.py`, `validation.py`, `transform.py`, `load.py`); the DAG only describes the workflow.
