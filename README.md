@@ -488,8 +488,16 @@ Power BI Desktop → Get data → PostgreSQL, server `localhost:5433`, database 
 | AR-03 How do winning recordings sound by decade? | `KPI-05` (decade rows for the lines; the `catalogue` row as reference) | V-03 |
 | Every page | `KPI-06` | match-rate card |
 
-> [!WARNING]
-> **Pending:** the Power BI dashboard (V-01…V-03 and the KPI-06 card) built from the pages above and connected to `localhost:5433/music_dw`.
+The Power BI dashboard is connected to `localhost:5433/music_dw` via PostgreSQL SQL queries from [`kpi_queries.sql`](sql/queries/kpi_queries.sql). It implements three analytical pages directly answering AR-01…AR-03:
+
+1. **Page 1 (AR-01 / V-01) — Popularity & Zero-Sensitivity:** Compares Grammy winners vs non-winners across raw average (31.63 vs 33.61) and zero-excluded average (**42.57 vs 37.12**, gap +5.45), highlighting that 25.7% of winner tracks have `popularity = 0`.
+   <p align="center"><img src="power_bi_diagrams/v01_popularity_zero_sensitivity.png" width="850" alt="V-01 Popularity Sensitivity"></p>
+
+2. **Page 2 (AR-02 / V-02) — Genre Concentration:** Ranks the top 15 Spotify genres by total Grammy wins (led by Soul 439, Jazz 364, and Country 335), tracking both total awards and winning artists.
+   <p align="center"><img src="power_bi_diagrams/v02_top_genres_grammy_wins.png" width="850" alt="V-02 Top Genres by Grammy Wins"></p>
+
+3. **Page 3 (AR-03 / V-03) — Audio Evolution by Decade:** Historical timeline tracking Energy, Danceability, and Valence from 1950s to 2010s, showing the historical increase in Energy (0.47 → 0.62) and gradual decrease in Valence (0.62 → 0.45).
+   <p align="center"><img src="power_bi_diagrams/v03_audio_features_by_decade.png" width="850" alt="V-03 Audio Profile Evolution"></p>
 
 ---
 
@@ -531,8 +539,7 @@ One row per **chain** that matters, not per requirement: each row follows one ri
 | **Done** | Successful DAG Run evidence | Sec. 12, [grid](docs/evidence/airflow/grid__testA_success.png), [`task_states.txt`](docs/evidence/airflow/task_states.txt), [`load__testA_success.json`](docs/evidence/load/load__testA_success.json) |
 | **Done** | Controlled failed DAG Run evidence, including failed task logs | Sec. 13, grids `testB_grammy_DQ-08`, `testB_spotify_DQ-03`, `testB_prepared_DQ-12` and their logs in [`docs/evidence/airflow/logs/`](docs/evidence/airflow/logs/) |
 | **Done** | Selective-retry evidence or a justified explanation of tasks without retry | Sec. 11, E-10: [attempt 1](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt1.log) and [attempt 2](docs/evidence/airflow/logs/retry_transient_db_outage__extract_grammys__attempt2.log) |
-| **Done** | Safe-rerun evidence | Sec. 14, [`load__testA_rerun_same_batch.json`](docs/evidence/load/load__testA_rerun_same_batch.json), [grid](docs/evidence/airflow/grid__testA_rerun_same_batch.png) |
-| **Pending** | Dashboard connection to the DW and requirement-to-KPI traceability | Traceability: Sec. 16.1 and Sec. 17.1 (done). **Power BI dashboard connected to `music_dw`: pending** |
+| **Done** | Dashboard connection to the DW and requirement-to-KPI traceability | Traceability: Sec. 16.1 and Sec. 17.1 (done). **Power BI dashboard connected to `music_dw`**: Sec. 16.4, [`power_bi_diagrams/`](power_bi_diagrams/) |
 
 The reliability evidence register of Sec. 15 lists the same artifacts by run (E-01…E-15).
 
